@@ -1,0 +1,529 @@
+/* ============================================================
+   VERTEK — Sistema de diseño
+   Dirección: "concreto y luz". Paleta clara y arquitectónica,
+   monocromática: blancos, grises concreto y grafito del logotipo.
+   Retículas finas, etiquetas monoespaciadas, esquinas rectas y
+   mucho aire. Sin color de acento: el contraste es la jerarquía.
+   ============================================================ */
+
+:root {
+  /* Grafito — tomado del logotipo */
+  --ink-950: #14161a;
+  --ink-900: #1c1f23;
+  --ink-800: #26292e;
+  --ink-700: #33373c; /* VERTEK */
+  --ink-600: #43484e;
+  --ink-500: #565c63;
+
+  /* Acero — tomado del descriptor "INDUSTRIAL HOLDING" */
+  --steel-500: #6e747b;
+  --steel-400: #8a9199;
+  --steel-300: #a8aeb4;
+
+  /* Concreto */
+  --concrete-300: #c4c8cc;
+  --concrete-200: #dcdfe1;
+  --concrete-100: #e9ebec;
+  --concrete-50: #f4f5f5;
+  --white: #ffffff;
+
+  --focus: #33373c;
+
+  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, monospace;
+
+  --gutter: clamp(1.25rem, 4vw, 3.5rem);
+  --max: 1280px;
+  --section-y: clamp(4rem, 9vw, 8rem);
+
+  --border: 1px solid var(--concrete-200);
+  --border-soft: 1px solid var(--concrete-100);
+  --border-dark: 1px solid var(--ink-800);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--white);
+  color: var(--ink-800);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.68;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.07;
+  margin: 0;
+  color: var(--ink-900);
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* ---------- Estructura ---------- */
+
+.wrap {
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-y);
+}
+
+.section--paper {
+  background: var(--concrete-50);
+}
+
+.section--dark {
+  background: var(--ink-950);
+  color: var(--concrete-200);
+}
+
+.section--dark h1,
+.section--dark h2,
+.section--dark h3,
+.section--dark h4 {
+  color: var(--white);
+}
+
+.section--line {
+  border-top: var(--border);
+}
+
+/* Retícula de plano arquitectónico */
+.grid-bg {
+  background-image: linear-gradient(
+      to right,
+      rgba(51, 55, 60, 0.055) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(51, 55, 60, 0.055) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.grid-bg--dark {
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.045) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Trama diagonal: la geometría de la "V" */
+.diag-bg {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(51, 55, 60, 0.045) 0 1px,
+    transparent 1px 9px
+  );
+}
+
+/* ---------- Etiqueta de sección ---------- */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--steel-500);
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--ink-700);
+  flex: none;
+}
+
+.section--dark .eyebrow {
+  color: var(--steel-400);
+}
+
+.section--dark .eyebrow::before {
+  background: var(--steel-300);
+}
+
+/* ---------- Títulos ---------- */
+
+.title {
+  font-size: clamp(1.85rem, 4vw, 3rem);
+  max-width: 24ch;
+}
+
+.title--wide {
+  max-width: 34ch;
+}
+
+.subtitle {
+  font-size: clamp(1.3rem, 2.3vw, 1.75rem);
+}
+
+.lede {
+  font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
+  color: var(--ink-500);
+  max-width: 64ch;
+  margin-top: 1.25rem;
+}
+
+.section--dark .lede {
+  color: var(--steel-300);
+}
+
+.prose {
+  color: var(--ink-500);
+  max-width: 64ch;
+}
+
+.prose p + p {
+  margin-top: 1.1rem;
+}
+
+.section--dark .prose {
+  color: var(--steel-300);
+}
+
+/* ---------- Encabezado de sección con numeración ---------- */
+
+.head {
+  display: grid;
+  gap: 1rem;
+}
+
+.head__num {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.2em;
+  color: var(--concrete-300);
+}
+
+/* ---------- Botones ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  padding: 0.95rem 1.6rem;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: 0;
+  cursor: pointer;
+  transition: background-color 0.16s ease, color 0.16s ease,
+    border-color 0.16s ease, transform 0.16s ease;
+}
+
+.btn svg {
+  flex: none;
+}
+
+.btn--primary {
+  background: var(--ink-900);
+  color: var(--white);
+  border-color: var(--ink-900);
+}
+
+.btn--primary:hover {
+  background: var(--ink-700);
+  border-color: var(--ink-700);
+  transform: translateY(-2px);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--ink-900);
+  border-color: var(--concrete-300);
+}
+
+.btn--ghost:hover {
+  border-color: var(--ink-900);
+  background: var(--ink-900);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.section--dark .btn--primary {
+  background: var(--white);
+  color: var(--ink-950);
+  border-color: var(--white);
+}
+
+.section--dark .btn--primary:hover {
+  background: var(--concrete-200);
+  border-color: var(--concrete-200);
+}
+
+.section--dark .btn--ghost {
+  color: var(--white);
+  border-color: var(--ink-700);
+}
+
+.section--dark .btn--ghost:hover {
+  background: var(--white);
+  color: var(--ink-950);
+  border-color: var(--white);
+}
+
+.btn--sm {
+  padding: 0.6rem 1.05rem;
+  font-size: 0.8125rem;
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 2.25rem;
+}
+
+/* ---------- Enlace técnico ---------- */
+
+.link-tec {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink-700);
+  text-decoration: none;
+  border-bottom: 1px solid var(--concrete-300);
+  padding-bottom: 2px;
+  transition: border-color 0.16s ease, color 0.16s ease;
+}
+
+.link-tec:hover {
+  color: var(--ink-950);
+  border-bottom-color: var(--ink-900);
+}
+
+.link-tec--muted {
+  color: var(--steel-400);
+  border-bottom-style: dashed;
+}
+
+.section--dark .link-tec {
+  color: var(--concrete-200);
+  border-bottom-color: var(--ink-700);
+}
+
+.section--dark .link-tec:hover {
+  color: var(--white);
+  border-bottom-color: var(--white);
+}
+
+/* ---------- Retículas ---------- */
+
+.cols {
+  display: grid;
+  gap: 1.75rem;
+}
+
+.cols--2 {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+}
+
+.cols--3 {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+
+.cols--4 {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+}
+
+/* ---------- Dato destacado ---------- */
+
+.stat {
+  border-top: 1px solid var(--ink-900);
+  padding-top: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.stat__k {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--steel-500);
+}
+
+.stat__v {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink-900);
+  letter-spacing: -0.01em;
+}
+
+.section--dark .stat {
+  border-top-color: var(--steel-400);
+}
+
+.section--dark .stat__k {
+  color: var(--steel-400);
+}
+
+.section--dark .stat__v {
+  color: var(--white);
+}
+
+/* ---------- Lista con marca ---------- */
+
+.checklist {
+  list-style: none;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.checklist li {
+  position: relative;
+  padding-left: 1.6rem;
+  color: var(--ink-500);
+}
+
+.checklist li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.68em;
+  width: 10px;
+  height: 1px;
+  background: var(--ink-700);
+}
+
+.section--dark .checklist li {
+  color: var(--steel-300);
+}
+
+.section--dark .checklist li::before {
+  background: var(--steel-300);
+}
+
+/* ---------- Regla fina de cierre ---------- */
+
+.rule {
+  height: 1px;
+  background: var(--concrete-200);
+  border: 0;
+  margin: 0;
+}
+
+/* ---------- Revelado al hacer scroll ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .btn:hover,
+  a.empresa:hover {
+    transform: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+  padding: 0.75rem 1.25rem;
+  background: var(--ink-950);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}

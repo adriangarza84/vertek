@@ -1,0 +1,124 @@
+---
+import { hero } from '../data/site.js';
+---
+
+<section class="hero" aria-labelledby="hero-titulo">
+  <div class="hero__grid grid-bg" aria-hidden="true"></div>
+  <div class="hero__v" aria-hidden="true">
+    <svg viewBox="0 0 600 600" preserveAspectRatio="xMidYMid slice">
+      <g fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M60 60 L300 540 L540 60"></path>
+        <path d="M120 60 L300 420 L480 60"></path>
+        <path d="M180 60 L300 300 L420 60"></path>
+        <path d="M240 60 L300 180 L360 60"></path>
+      </g>
+    </svg>
+  </div>
+
+  <div class="wrap hero__inner">
+    <p class="eyebrow">{hero.eyebrow}</p>
+
+    <h1 class="hero__titulo" id="hero-titulo">{hero.titulo}</h1>
+
+    <p class="hero__sub">{hero.subtitulo}</p>
+
+    <div class="btn-row">
+      <a class="btn btn--primary" href={hero.ctaPrimario.href}>
+        {hero.ctaPrimario.titulo}
+      </a>
+      <a class="btn btn--ghost" href={hero.ctaSecundario.href}>
+        {hero.ctaSecundario.titulo}
+      </a>
+    </div>
+  </div>
+
+  <div class="hero__tira">
+    <div class="wrap hero__tira-inner">
+      {
+        hero.respaldo.map((d) => (
+          <div class="stat">
+            <span class="stat__k">{d.k}</span>
+            <span class="stat__v">{d.v}</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: var(--white);
+    border-bottom: 1px solid var(--concrete-200);
+  }
+
+  .hero__grid {
+    position: absolute;
+    inset: 0;
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+  }
+
+  .hero__v {
+    position: absolute;
+    top: -8%;
+    right: -14%;
+    width: min(58vw, 640px);
+    aspect-ratio: 1;
+    color: var(--ink-700);
+    opacity: 0.14;
+    pointer-events: none;
+  }
+
+  .hero__v svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__inner {
+    position: relative;
+    padding-block: clamp(4rem, 11vw, 8.5rem) clamp(3rem, 7vw, 5.5rem);
+  }
+
+  .hero__titulo {
+    font-size: clamp(2.3rem, 6.2vw, 4.5rem);
+    max-width: 20ch;
+  }
+
+  .hero__sub {
+    margin-top: 1.75rem;
+    max-width: 58ch;
+    font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+    color: var(--ink-500);
+  }
+
+  .hero__tira {
+    position: relative;
+    border-top: 1px solid var(--concrete-200);
+    background: rgba(244, 245, 245, 0.75);
+  }
+
+  .hero__tira-inner {
+    display: grid;
+    gap: 1.5rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+    padding-block: 2.25rem;
+  }
+
+  .hero__tira .stat {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  @media (min-width: 760px) {
+    .hero__tira-inner {
+      gap: 2rem;
+    }
+    .hero__tira .stat + .stat {
+      padding-left: 2rem;
+      border-left: 1px solid var(--concrete-200);
+    }
+  }
+</style>

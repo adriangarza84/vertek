@@ -1,0 +1,175 @@
+---
+import Logo from './Logo.astro';
+import { site, footer, empresas, nav } from '../data/site.js';
+
+const anio = new Date().getFullYear();
+const enlacesGrupo = [...nav, { titulo: 'Contacto', href: '#contacto' }];
+---
+
+<footer class="footer">
+  <div class="wrap footer__top">
+    <div class="footer__brand">
+      <Logo variant="full" size={1.9} />
+      <p class="footer__desc">{footer.descriptor}</p>
+      <p class="footer__firma">{footer.firma}</p>
+    </div>
+
+    <nav class="footer__col" aria-label="Grupo">
+      <h2 class="footer__h">Grupo</h2>
+      <ul>
+        {
+          enlacesGrupo.map((i) => (
+            <li>
+              <a href={i.href}>{i.titulo}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav class="footer__col" aria-label="Empresas">
+      <h2 class="footer__h">Empresas</h2>
+      <ul>
+        {
+          empresas.map((e) => (
+            <li>
+              {e.href ? (
+                <a href={e.href} target="_blank" rel="noopener">
+                  {e.nombre}
+                </a>
+              ) : (
+                <span class="footer__plain">
+                  {e.nombre} <em>próximamente</em>
+                </span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="footer__col">
+      <h2 class="footer__h">Contacto</h2>
+      <ul>
+        <li><a href={`mailto:${site.correo}`}>{site.correo}</a></li>
+        <li class="footer__plain">{site.ciudad}</li>
+        <li class="footer__plain">Cobertura nacional</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap footer__legal">
+    <p>© {anio} {site.nombre}. Todos los derechos reservados.</p>
+    <nav aria-label="Legales">
+      <a href="/aviso-de-privacidad/">Aviso de privacidad</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--ink-950);
+    color: var(--steel-300);
+    padding-top: clamp(3rem, 6vw, 4.5rem);
+    font-size: 0.9375rem;
+  }
+
+  .footer__top {
+    display: grid;
+    gap: 2.75rem;
+    padding-bottom: clamp(2.5rem, 5vw, 3.75rem);
+  }
+
+  .footer__brand {
+    color: var(--white);
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+
+  .footer__desc {
+    color: var(--steel-300);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    max-width: 42ch;
+  }
+
+  .footer__firma {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--steel-500);
+  }
+
+  .footer__h {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--steel-500);
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--ink-800);
+    margin-bottom: 1rem;
+  }
+
+  .footer__col ul {
+    list-style: none;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .footer__col a {
+    color: var(--concrete-200);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.16s ease, border-color 0.16s ease;
+  }
+
+  .footer__col a:hover {
+    color: var(--white);
+    border-bottom-color: var(--steel-500);
+  }
+
+  .footer__plain {
+    color: var(--steel-500);
+  }
+
+  .footer__plain em {
+    font-style: normal;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .footer__legal {
+    border-top: 1px solid var(--ink-800);
+    padding-block: 1.5rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    color: var(--steel-500);
+  }
+
+  .footer__legal a {
+    color: var(--steel-400);
+    text-decoration: none;
+  }
+
+  .footer__legal a:hover {
+    color: var(--white);
+  }
+
+  @media (min-width: 860px) {
+    .footer__top {
+      grid-template-columns: 1.5fr 0.85fr 0.95fr 1fr;
+      gap: 3rem;
+    }
+  }
+</style>

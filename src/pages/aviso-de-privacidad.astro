@@ -1,0 +1,81 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site } from '../data/site.js';
+---
+
+<Legal
+  titulo="Aviso de privacidad | Vertek"
+  descripcion="Aviso de privacidad de Vertek: tratamiento de datos personales recabados a través del sitio."
+  encabezado="Aviso de privacidad"
+  actualizado="Agosto 2026"
+>
+  <h2>Responsable del tratamiento</h2>
+  <p>
+    Vertek —en adelante "Vertek" o "el grupo"— con domicilio en {site.ciudad},
+    es responsable del tratamiento de los datos personales que recabamos a
+    través de este sitio, conforme a la Ley Federal de Protección de Datos
+    Personales en Posesión de los Particulares. La razón social y el domicilio
+    fiscal completos se confirmarán previo a la publicación del sitio.
+  </p>
+
+  <h2>Datos que recabamos</h2>
+  <p>
+    A través del formulario de contacto recabamos únicamente los datos
+    necesarios para atender tu solicitud:
+  </p>
+  <ul>
+    <li>Nombre completo</li>
+    <li>Empresa</li>
+    <li>Correo corporativo</li>
+    <li>Teléfono</li>
+    <li>El contenido del mensaje o requerimiento que nos envías</li>
+  </ul>
+  <p>
+    No recabamos datos personales sensibles, financieros ni patrimoniales a
+    través de este sitio.
+  </p>
+
+  <h2>Finalidades del tratamiento</h2>
+  <p>Los datos que nos proporcionas se utilizan para:</p>
+  <ul>
+    <li>Responder tu solicitud de información o de contacto.</li>
+    <li>
+      Canalizar tu requerimiento con la empresa del grupo que corresponda
+      —Macero, Valltor, Apex, Tecnocranes, Orme, Fyron o Subestaciones
+      Juárez— cuando sea necesario para atenderte.
+    </li>
+    <li>Elaborar y dar seguimiento a propuestas técnicas y comerciales.</li>
+    <li>Mantener el registro y la comunicación derivados de la relación comercial.</li>
+  </ul>
+
+  <h2>Transferencias</h2>
+  <p>
+    Tus datos pueden compartirse con las empresas que forman parte de Vertek
+    para el único fin de atender tu solicitud. No transferimos tus datos a
+    terceros ajenos al grupo sin tu consentimiento, salvo en los casos
+    previstos en el artículo 37 de la Ley.
+  </p>
+
+  <h2>Derechos ARCO</h2>
+  <p>
+    Puedes solicitar en cualquier momento el acceso, la rectificación, la
+    cancelación o la oposición al tratamiento de tus datos personales, así
+    como revocar tu consentimiento, escribiendo a
+    <a href={`mailto:${site.correo}`}>{site.correo}</a>. Tu solicitud debe
+    incluir tu nombre, un medio de contacto y la descripción clara de lo que
+    deseas ejercer.
+  </p>
+
+  <h2>Medidas de seguridad</h2>
+  <p>
+    Aplicamos medidas administrativas, técnicas y físicas razonables para
+    proteger tus datos personales contra daño, pérdida, alteración,
+    destrucción o uso y acceso no autorizados.
+  </p>
+
+  <h2>Cambios a este aviso</h2>
+  <p>
+    Cualquier modificación a este aviso de privacidad se publicará en esta
+    misma página. Te recomendamos revisarla periódicamente.
+  </p>
+</Legal>

@@ -1,0 +1,216 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site.js';
+---
+
+<header class="header" data-header>
+  <div class="wrap header__inner">
+    <a class="header__brand" href="/" aria-label="Vertek, inicio">
+      <Logo variant="full" size={1.35} />
+    </a>
+
+    <nav class="header__nav" aria-label="Navegación principal">
+      {
+        nav.map((item) => (
+          <a class="header__link" href={item.href} data-spy={item.href}>
+            {item.titulo}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a class="btn btn--primary btn--sm header__cta" href="#contacto">
+      Contacto
+    </a>
+
+    <button
+      class="burger"
+      type="button"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="menu-movil"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="movil" id="menu-movil" hidden>
+    <div class="wrap movil__inner">
+      {
+        nav.map((item) => (
+          <a class="movil__link" href={item.href}>
+            {item.titulo}
+          </a>
+        ))
+      }
+      <a class="btn btn--primary movil__cta" href="#contacto">
+        Contactar al grupo
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: saturate(140%) blur(10px);
+    border-bottom: 1px solid var(--concrete-100);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .header.is-stuck {
+    border-bottom-color: var(--concrete-200);
+    box-shadow: 0 1px 20px -12px rgba(20, 22, 26, 0.35);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: 78px;
+  }
+
+  .header__brand {
+    text-decoration: none;
+    color: var(--ink-900);
+    margin-right: auto;
+  }
+
+  .header__nav {
+    display: none;
+    align-items: center;
+    gap: 1.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.7188rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .header__link {
+    color: var(--steel-500);
+    text-decoration: none;
+    padding-block: 0.5rem;
+    border-bottom: 1px solid transparent;
+    transition: color 0.16s ease, border-color 0.16s ease;
+  }
+
+  .header__link:hover,
+  .header__link.is-active {
+    color: var(--ink-900);
+    border-bottom-color: var(--ink-900);
+  }
+
+  .burger {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-content: center;
+    gap: 5px;
+    background: transparent;
+    border: 1px solid var(--concrete-200);
+    border-radius: 0;
+    cursor: pointer;
+  }
+
+  .burger span {
+    display: block;
+    width: 20px;
+    height: 1px;
+    background: var(--ink-800);
+  }
+
+  .movil {
+    border-top: 1px solid var(--concrete-100);
+    background: var(--white);
+    max-height: calc(100vh - 78px);
+    overflow-y: auto;
+  }
+
+  .movil__inner {
+    display: flex;
+    flex-direction: column;
+    padding-block: 0.5rem 1.75rem;
+  }
+
+  .movil__link {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--ink-900);
+    text-decoration: none;
+    padding-block: 0.85rem;
+    border-bottom: 1px solid var(--concrete-100);
+  }
+
+  .movil__cta {
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 1000px) {
+    .header__nav {
+      display: flex;
+    }
+    .burger,
+    .movil {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 999px) {
+    .header__cta {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const burger = document.querySelector('.burger');
+  const panel = document.getElementById('menu-movil');
+
+  burger?.addEventListener('click', () => {
+    const abierto = burger.getAttribute('aria-expanded') === 'true';
+    burger.setAttribute('aria-expanded', String(!abierto));
+    burger.setAttribute('aria-label', abierto ? 'Abrir menú' : 'Cerrar menú');
+    if (panel) panel.hidden = abierto;
+  });
+
+  // Cierra el menú móvil al elegir una ancla
+  panel?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      panel.hidden = true;
+      burger?.setAttribute('aria-expanded', 'false');
+      burger?.setAttribute('aria-label', 'Abrir menú');
+    })
+  );
+
+  // Sombra al separarse del tope
+  const marcarStuck = () =>
+    header?.classList.toggle('is-stuck', window.scrollY > 8);
+  marcarStuck();
+  window.addEventListener('scroll', marcarStuck, { passive: true });
+
+  // Resalta la sección visible en la navegación
+  const enlaces = [...document.querySelectorAll('[data-spy]')];
+  const secciones = enlaces
+    .map((a) => document.querySelector(a.dataset.spy))
+    .filter(Boolean);
+
+  if ('IntersectionObserver' in window && secciones.length) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          enlaces.forEach((a) =>
+            a.classList.toggle('is-active', a.dataset.spy === `#${entry.target.id}`)
+          );
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    );
+    secciones.forEach((s) => io.observe(s));
+  }
+</script>

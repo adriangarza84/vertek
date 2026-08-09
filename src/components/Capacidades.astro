@@ -1,0 +1,121 @@
+---
+import { capacidades } from '../data/site.js';
+---
+
+<section class="section" id="capacidades" aria-labelledby="capacidades-titulo">
+  <div class="wrap">
+    <div class="cap__head reveal">
+      <p class="eyebrow">{capacidades.eyebrow}</p>
+      <h2 class="title title--wide" id="capacidades-titulo">
+        {capacidades.titulo}
+      </h2>
+      <p class="lede">{capacidades.intro}</p>
+    </div>
+
+    <div class="cap__bloques reveal">
+      {
+        capacidades.bloques.map((b, i) => (
+          <article class="bloque">
+            <div class="bloque__izq">
+              <span class="bloque__num">
+                {String(i + 1).padStart(2, '0')} / 03
+              </span>
+              <h3 class="bloque__titulo">{b.titulo}</h3>
+              <ul class="chips">
+                {b.empresas.map((e) => (
+                  <li class="chip">{e}</li>
+                ))}
+              </ul>
+            </div>
+            <p class="bloque__texto">{b.texto}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="cap__cierre diag-bg reveal">{capacidades.cierre}</p>
+  </div>
+</section>
+
+<style>
+  .cap__head {
+    max-width: 46rem;
+  }
+
+  .cap__bloques {
+    margin-top: clamp(2.75rem, 5vw, 4.25rem);
+    border-top: 1px solid var(--ink-900);
+  }
+
+  .bloque {
+    display: grid;
+    gap: 1.25rem;
+    padding-block: clamp(1.85rem, 3.5vw, 2.75rem);
+    border-bottom: 1px solid var(--concrete-200);
+  }
+
+  .bloque__izq {
+    display: grid;
+    gap: 0.85rem;
+    align-content: start;
+  }
+
+  .bloque__num {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    color: var(--steel-400);
+  }
+
+  .bloque__titulo {
+    font-size: clamp(1.3rem, 2.2vw, 1.6rem);
+    max-width: 20ch;
+  }
+
+  .chips {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-700);
+    border: 1px solid var(--concrete-200);
+    padding: 0.28rem 0.55rem;
+    background: var(--concrete-50);
+  }
+
+  .bloque__texto {
+    color: var(--ink-500);
+    font-size: 1rem;
+    line-height: 1.72;
+    max-width: 58ch;
+  }
+
+  .cap__cierre {
+    margin-top: clamp(2.5rem, 5vw, 3.75rem);
+    padding: clamp(1.75rem, 3.5vw, 2.5rem);
+    border: 1px solid var(--concrete-200);
+    border-left: 3px solid var(--ink-900);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.15rem, 2.1vw, 1.5rem);
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--ink-900);
+    max-width: 52ch;
+  }
+
+  @media (min-width: 880px) {
+    .bloque {
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 3.5rem;
+      align-items: start;
+    }
+  }
+</style>

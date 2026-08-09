@@ -1,0 +1,272 @@
+---
+import { empresas, empresasSeccion } from '../data/site.js';
+---
+
+<section
+  class="section section--paper section--line"
+  id="empresas"
+  aria-labelledby="empresas-titulo"
+>
+  <div class="wrap">
+    <div class="empresas__head reveal">
+      <div>
+        <p class="eyebrow">{empresasSeccion.eyebrow}</p>
+        <h2 class="title" id="empresas-titulo">{empresasSeccion.titulo}</h2>
+      </div>
+      <p class="lede">{empresasSeccion.intro}</p>
+    </div>
+
+    <ul class="empresas reveal">
+      {
+        empresas.map((e, i) => {
+          const Tag = e.href ? 'a' : 'div';
+          const props = e.href
+            ? { href: e.href, target: '_blank', rel: 'noopener' }
+            : {};
+          return (
+            <li>
+              <Tag class="empresa" {...props}>
+                <span class="empresa__num">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <h3 class="empresa__nombre">{e.nombre}</h3>
+                <p class="empresa__cat">{e.categoria}</p>
+                <p class="empresa__texto">{e.texto}</p>
+                <span
+                  class:list={['empresa__cta', { 'is-muted': !e.href }]}
+                  aria-hidden={e.href ? null : 'true'}
+                >
+                  {e.cta}
+                  {e.href && (
+                    <svg
+                      width="13"
+                      height="13"
+                      viewBox="0 0 13 13"
+                      fill="none"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M2.5 10.5L10.5 2.5M10.5 2.5H4.5M10.5 2.5v6"
+                        stroke="currentColor"
+                        stroke-width="1.3"
+                      />
+                    </svg>
+                  )}
+                </span>
+              </Tag>
+            </li>
+          );
+        })
+      }
+
+      <li>
+        <a class="empresa empresa--cta" href="#contacto">
+          <span class="empresa__num">＋</span>
+          <h3 class="empresa__nombre">Un solo interlocutor</h3>
+          <p class="empresa__texto">
+            Si tu proyecto involucra a más de una empresa del grupo, escríbenos
+            y coordinamos todo desde un mismo punto de contacto.
+          </p>
+          <span class="empresa__cta">
+            Contactar al grupo
+            <svg
+              width="13"
+              height="13"
+              viewBox="0 0 13 13"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M2.5 6.5h8M7.5 3l3.5 3.5L7.5 10"
+                stroke="currentColor"
+                stroke-width="1.3"
+              />
+            </svg>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .empresas__head {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .empresas__head .lede {
+    margin-top: 0;
+    align-self: end;
+  }
+
+  .empresas {
+    list-style: none;
+    margin-top: clamp(2.75rem, 5vw, 4rem);
+    display: grid;
+    gap: 1px;
+    background: var(--concrete-200);
+    border: 1px solid var(--concrete-200);
+    grid-template-columns: 1fr;
+  }
+
+  .empresas li {
+    display: flex;
+  }
+
+  .empresa {
+    background: var(--white);
+    padding: clamp(1.5rem, 2.4vw, 2.15rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: background-color 0.18s ease;
+  }
+
+  /* Barra grafito que aparece en el borde superior al pasar el cursor */
+  .empresa::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: var(--ink-900);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.28s ease;
+  }
+
+  a.empresa:hover::before,
+  a.empresa:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  a.empresa:hover {
+    background: var(--concrete-50);
+  }
+
+  .empresa__num {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    color: var(--concrete-300);
+  }
+
+  .empresa__nombre {
+    font-size: clamp(1.4rem, 2.2vw, 1.7rem);
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+  }
+
+  .empresa__cat {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--steel-500);
+    padding-bottom: 0.9rem;
+    border-bottom: 1px solid var(--concrete-100);
+  }
+
+  .empresa__texto {
+    color: var(--ink-500);
+    font-size: 0.9375rem;
+    line-height: 1.68;
+    padding-top: 0.35rem;
+  }
+
+  .empresa__cta {
+    margin-top: auto;
+    padding-top: 1.6rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7188rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-800);
+  }
+
+  .empresa__cta.is-muted {
+    color: var(--steel-400);
+  }
+
+  a.empresa:hover .empresa__cta {
+    color: var(--ink-950);
+  }
+
+  .empresa--cta {
+    background: var(--ink-950);
+    color: var(--concrete-200);
+  }
+
+  .empresa--cta .empresa__nombre {
+    color: var(--white);
+  }
+
+  .empresa--cta .empresa__num {
+    color: var(--steel-500);
+    font-family: var(--font-display);
+    font-size: 1rem;
+  }
+
+  .empresa--cta .empresa__texto {
+    color: var(--steel-300);
+    padding-top: 0.9rem;
+  }
+
+  .empresa--cta .empresa__cta {
+    color: var(--white);
+  }
+
+  .empresa--cta::before {
+    background: var(--white);
+  }
+
+  a.empresa--cta:hover {
+    background: var(--ink-900);
+  }
+
+  /* Dos columnas: 7 empresas + tarjeta de contacto = 8 celdas exactas */
+  @media (min-width: 680px) {
+    .empresas {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* Alinea los divisores de todas las tarjetas de una misma fila */
+    .empresa__nombre {
+      min-height: calc(2em * 1.07);
+    }
+
+    .empresa__cat {
+      min-height: calc(2em * 1.68 + 0.9rem);
+    }
+  }
+
+  /* Tres columnas: la tarjeta de contacto ocupa las dos celdas restantes */
+  @media (min-width: 1040px) {
+    .empresas {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .empresas > li:last-child {
+      grid-column: span 2;
+    }
+
+    .empresa--cta .empresa__texto {
+      max-width: 46ch;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .empresas__head {
+      grid-template-columns: 1.15fr 1fr;
+      gap: 4rem;
+      align-items: end;
+    }
+  }
+</style>

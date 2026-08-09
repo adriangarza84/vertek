@@ -1,0 +1,75 @@
+---
+import { sectores, sectoresSeccion } from '../data/site.js';
+---
+
+<section
+  class="section section--paper section--line"
+  id="sectores"
+  aria-labelledby="sectores-titulo"
+>
+  <div class="wrap sect__inner">
+    <div class="sect__head reveal">
+      <p class="eyebrow">{sectoresSeccion.eyebrow}</p>
+      <h2 class="title" id="sectores-titulo">{sectoresSeccion.titulo}</h2>
+      <p class="lede">{sectoresSeccion.intro}</p>
+    </div>
+
+    <ol class="sect__lista reveal">
+      {
+        sectores.map((s, i) => (
+          <li class="sect__item">
+            <span class="sect__num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="sect__nombre">{s}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .sect__inner {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .sect__lista {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    column-gap: 2.5rem;
+    border-top: 1px solid var(--concrete-300);
+  }
+
+  .sect__item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    padding-block: 1.05rem;
+    border-bottom: 1px solid var(--concrete-200);
+  }
+
+  .sect__num {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    color: var(--steel-400);
+    flex: none;
+  }
+
+  .sect__nombre {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.05rem, 1.7vw, 1.2rem);
+    letter-spacing: -0.01em;
+    color: var(--ink-900);
+  }
+
+  @media (min-width: 940px) {
+    .sect__inner {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: start;
+      gap: 4.5rem;
+    }
+  }
+</style>

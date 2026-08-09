@@ -1,0 +1,92 @@
+---
+import { grupo } from '../data/site.js';
+---
+
+<section class="section" id="grupo" aria-labelledby="grupo-titulo">
+  <div class="wrap">
+    <div class="grupo__top reveal">
+      <div>
+        <p class="eyebrow">{grupo.eyebrow}</p>
+        <h2 class="title" id="grupo-titulo">{grupo.titulo}</h2>
+      </div>
+
+      <div class="grupo__texto">
+        <div class="prose">
+          {grupo.cuerpo.map((p) => <p>{p}</p>)}
+        </div>
+        <p class="grupo__firma">{grupo.firma}</p>
+      </div>
+    </div>
+
+    <ol class="grupo__pilares reveal">
+      {
+        grupo.pilares.map((p, i) => (
+          <li class="pilar">
+            <span class="pilar__num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="pilar__titulo">{p.titulo}</h3>
+            <p class="pilar__texto">{p.texto}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .grupo__top {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .grupo__firma {
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--concrete-200);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--steel-500);
+    max-width: 52ch;
+  }
+
+  .grupo__pilares {
+    list-style: none;
+    margin-top: clamp(3rem, 6vw, 5rem);
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+
+  .pilar {
+    border-top: 1px solid var(--ink-900);
+    padding-top: 1.35rem;
+    display: grid;
+    gap: 0.55rem;
+    align-content: start;
+  }
+
+  .pilar__num {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+    color: var(--steel-400);
+  }
+
+  .pilar__titulo {
+    font-size: 1.2rem;
+  }
+
+  .pilar__texto {
+    color: var(--ink-500);
+    font-size: 0.9688rem;
+    line-height: 1.65;
+  }
+
+  @media (min-width: 900px) {
+    .grupo__top {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+  }
+</style>

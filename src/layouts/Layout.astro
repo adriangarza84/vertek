@@ -1,0 +1,109 @@
+---
+import '../styles/global.css';
+import { site, empresas } from '../data/site.js';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+const {
+  titulo,
+  descripcion,
+  ogTitulo = titulo,
+  ogDescripcion = descripcion,
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const organizacion = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Vertek',
+  alternateName: 'Vertek Industrial Holding',
+  url: site.dominio,
+  email: site.correo,
+  description: site.claimCorto,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'San Pedro Garza García',
+    addressRegion: 'Nuevo León',
+    addressCountry: 'MX',
+  },
+  areaServed: { '@type': 'Country', name: 'México' },
+  subOrganization: empresas.map((e) => ({
+    '@type': 'Organization',
+    name: e.nombre,
+    description: e.categoria,
+    ...(e.href ? { url: e.href } : {}),
+  })),
+};
+---
+
+<!doctype html>
+<html lang="es-MX">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#ffffff" />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:title" content={ogTitulo} />
+    <meta property="og:description" content={ogDescripcion} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Vertek" />
+    <meta property="og:image" content={new URL('/og.png', Astro.site).href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Vertek — Industrial Holding" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={new URL('/og.png', Astro.site).href} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(organizacion)}
+    />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#contenido">Ir al contenido</a>
+    <Header />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      const items = document.querySelectorAll('.reveal');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      if (reduce.matches || !('IntersectionObserver' in window)) {
+        items.forEach((el) => el.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.08, rootMargin: '0px 0px -60px 0px' }
+        );
+        items.forEach((el) => io.observe(el));
+      }
+    </script>
+  </body>
+</html>

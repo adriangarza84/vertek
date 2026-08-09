@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  titulo="Página no encontrada | Vertek"
+  descripcion="La página que buscas no existe o cambió de dirección."
+  noindex={true}
+>
+  <section class="section e404">
+    <div class="wrap">
+      <p class="eyebrow">Error 404</p>
+      <h1 class="title">La página que buscas no existe o cambió de dirección.</h1>
+      <p class="lede">
+        Vuelve al inicio para conocer las empresas del grupo, o escríbenos y te
+        canalizamos con el equipo indicado.
+      </p>
+      <div class="btn-row">
+        <a class="btn btn--primary" href="/">Ir al inicio</a>
+        <a class="btn btn--ghost" href="/#contacto">Contactar al grupo</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .e404 {
+    padding-block: clamp(4rem, 12vw, 9rem);
+  }
+</style>

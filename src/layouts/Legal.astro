@@ -1,0 +1,73 @@
+---
+import Layout from './Layout.astro';
+
+const { titulo, descripcion, encabezado, actualizado } = Astro.props;
+---
+
+<Layout titulo={titulo} descripcion={descripcion} noindex={true}>
+  <section class="legal-hero">
+    <div class="wrap">
+      <p class="eyebrow">Legal</p>
+      <h1 class="title">{encabezado}</h1>
+      {actualizado && <p class="legal-fecha">Última actualización: {actualizado}</p>}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap legal">
+      <slot />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .legal-hero {
+    background: var(--concrete-50);
+    border-bottom: 1px solid var(--concrete-200);
+    padding-block: clamp(3rem, 7vw, 5rem);
+  }
+
+  .legal-fecha {
+    margin-top: 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--steel-500);
+  }
+
+  .legal {
+    max-width: 68ch;
+    color: var(--ink-500);
+  }
+
+  .legal :global(h2) {
+    font-size: 1.3rem;
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--concrete-200);
+  }
+
+  .legal :global(h2:first-child) {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .legal :global(p),
+  .legal :global(ul) {
+    margin-top: 1rem;
+  }
+
+  .legal :global(ul) {
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .legal :global(a) {
+    color: var(--ink-900);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

@@ -1,0 +1,211 @@
+---
+import { contacto, site } from '../data/site.js';
+---
+
+<section class="section section--line" id="contacto" aria-labelledby="contacto-titulo">
+  <div class="wrap cont__inner">
+    <div class="cont__izq reveal">
+      <p class="eyebrow">{contacto.eyebrow}</p>
+      <h2 class="title" id="contacto-titulo">{contacto.titulo}</h2>
+      <p class="lede">{contacto.cuerpo}</p>
+
+      <dl class="cont__datos">
+        <div>
+          <dt>Correo del grupo</dt>
+          <dd>
+            <a class="link-tec" href={`mailto:${site.correo}`}>{site.correo}</a>
+          </dd>
+        </div>
+        <div>
+          <dt>Sede</dt>
+          <dd>{site.ciudad}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <form
+      class="form reveal"
+      action={site.formEndpoint}
+      method="POST"
+      aria-labelledby="contacto-titulo"
+    >
+      <div class="form__campo">
+        <label for="nombre">Nombre completo</label>
+        <input id="nombre" name="nombre" type="text" required autocomplete="name" />
+      </div>
+
+      <div class="form__campo">
+        <label for="empresa">Empresa</label>
+        <input
+          id="empresa"
+          name="empresa"
+          type="text"
+          required
+          autocomplete="organization"
+        />
+      </div>
+
+      <div class="form__fila">
+        <div class="form__campo">
+          <label for="correo">Correo corporativo</label>
+          <input
+            id="correo"
+            name="correo"
+            type="email"
+            required
+            autocomplete="email"
+          />
+        </div>
+        <div class="form__campo">
+          <label for="telefono">Teléfono</label>
+          <input
+            id="telefono"
+            name="telefono"
+            type="tel"
+            autocomplete="tel"
+            inputmode="tel"
+          />
+        </div>
+      </div>
+
+      <div class="form__campo">
+        <label for="mensaje">Mensaje / requerimiento</label>
+        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+      </div>
+
+      <!-- Trampa para robots: no la ven las personas -->
+      <input
+        class="sr-only"
+        type="text"
+        name="_gotcha"
+        tabindex="-1"
+        aria-hidden="true"
+      />
+
+      <button class="btn btn--primary form__enviar" type="submit">
+        Enviar mensaje
+      </button>
+
+      <p class="form__nota">
+        Al enviar este formulario aceptas el tratamiento de tus datos conforme
+        a nuestro <a href="/aviso-de-privacidad/">aviso de privacidad</a>.
+      </p>
+    </form>
+  </div>
+</section>
+
+<style>
+  .cont__inner {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+
+  .cont__datos {
+    margin: 2.5rem 0 0;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  }
+
+  .cont__datos dt {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--steel-500);
+    padding-bottom: 0.55rem;
+    border-bottom: 1px solid var(--concrete-200);
+    margin-bottom: 0.7rem;
+  }
+
+  .cont__datos dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--ink-900);
+  }
+
+  .form {
+    display: grid;
+    gap: 1.2rem;
+    align-content: start;
+    background: var(--concrete-50);
+    border: 1px solid var(--concrete-200);
+    border-top: 3px solid var(--ink-900);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+  }
+
+  .form__fila {
+    display: grid;
+    gap: 1.2rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  }
+
+  .form__campo {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .form__campo label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--steel-500);
+  }
+
+  .form__campo input,
+  .form__campo textarea {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--ink-900);
+    background: var(--white);
+    border: 1px solid var(--concrete-300);
+    border-radius: 0;
+    padding: 0.8rem 0.9rem;
+    width: 100%;
+    transition: border-color 0.16s ease;
+  }
+
+  .form__campo textarea {
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  .form__campo input:hover,
+  .form__campo textarea:hover {
+    border-color: var(--steel-400);
+  }
+
+  .form__campo input:focus,
+  .form__campo textarea:focus {
+    outline: none;
+    border-color: var(--ink-900);
+    box-shadow: inset 0 0 0 1px var(--ink-900);
+  }
+
+  .form__enviar {
+    margin-top: 0.6rem;
+    justify-self: start;
+  }
+
+  .form__nota {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--steel-500);
+  }
+
+  .form__nota a {
+    color: var(--ink-800);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  @media (min-width: 940px) {
+    .cont__inner {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+      align-items: start;
+    }
+  }
+</style>
