@@ -1,25 +1,29 @@
 ---
 import Logo from './Logo.astro';
-import { nav } from '../data/site.js';
+import { nav, ruta } from '../data/site.js';
+
+// Las anclas se resuelven contra la portada para que también funcionen
+// desde las páginas legales y el 404.
+const ancla = (href) => `${ruta('/')}${href}`;
 ---
 
 <header class="header" data-header>
   <div class="wrap header__inner">
-    <a class="header__brand" href="/" aria-label="Vertek, inicio">
+    <a class="header__brand" href={ruta('/')} aria-label="Vertek, inicio">
       <Logo variant="full" size={1.35} />
     </a>
 
     <nav class="header__nav" aria-label="Navegación principal">
       {
         nav.map((item) => (
-          <a class="header__link" href={item.href} data-spy={item.href}>
+          <a class="header__link" href={ancla(item.href)} data-spy={item.href}>
             {item.titulo}
           </a>
         ))
       }
     </nav>
 
-    <a class="btn btn--primary btn--sm header__cta" href="#contacto">
+    <a class="btn btn--primary btn--sm header__cta" href={ancla('#contacto')}>
       Contacto
     </a>
 
@@ -38,12 +42,12 @@ import { nav } from '../data/site.js';
     <div class="wrap movil__inner">
       {
         nav.map((item) => (
-          <a class="movil__link" href={item.href}>
+          <a class="movil__link" href={ancla(item.href)}>
             {item.titulo}
           </a>
         ))
       }
-      <a class="btn btn--primary movil__cta" href="#contacto">
+      <a class="btn btn--primary movil__cta" href={ancla('#contacto')}>
         Contactar al grupo
       </a>
     </div>

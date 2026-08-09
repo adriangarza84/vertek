@@ -1,5 +1,5 @@
 ---
-import { contacto, site } from '../data/site.js';
+import { contacto, site, ruta } from '../data/site.js';
 ---
 
 <section class="section section--line" id="contacto" aria-labelledby="contacto-titulo">
@@ -88,7 +88,7 @@ import { contacto, site } from '../data/site.js';
 
       <p class="form__nota">
         Al enviar este formulario aceptas el tratamiento de tus datos conforme
-        a nuestro <a href="/aviso-de-privacidad/">aviso de privacidad</a>.
+        a nuestro <a href={ruta('/aviso-de-privacidad/')}>aviso de privacidad</a>.
       </p>
     </form>
   </div>

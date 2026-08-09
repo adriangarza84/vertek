@@ -1,9 +1,10 @@
 ---
 import Logo from './Logo.astro';
-import { site, footer, empresas, nav } from '../data/site.js';
+import { site, footer, empresas, nav, ruta } from '../data/site.js';
 
 const anio = new Date().getFullYear();
 const enlacesGrupo = [...nav, { titulo: 'Contacto', href: '#contacto' }];
+const ancla = (href) => `${ruta('/')}${href}`;
 ---
 
 <footer class="footer">
@@ -20,7 +21,7 @@ const enlacesGrupo = [...nav, { titulo: 'Contacto', href: '#contacto' }];
         {
           enlacesGrupo.map((i) => (
             <li>
-              <a href={i.href}>{i.titulo}</a>
+              <a href={ancla(i.href)}>{i.titulo}</a>
             </li>
           ))
         }
@@ -61,7 +62,7 @@ const enlacesGrupo = [...nav, { titulo: 'Contacto', href: '#contacto' }];
   <div class="wrap footer__legal">
     <p>© {anio} {site.nombre}. Todos los derechos reservados.</p>
     <nav aria-label="Legales">
-      <a href="/aviso-de-privacidad/">Aviso de privacidad</a>
+      <a href={ruta('/aviso-de-privacidad/')}>Aviso de privacidad</a>
     </nav>
   </div>
 </footer>

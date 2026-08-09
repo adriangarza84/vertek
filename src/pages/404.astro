@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { ruta } from '../data/site.js';
 ---
 
 <Layout
@@ -16,8 +17,8 @@ import Layout from '../layouts/Layout.astro';
         canalizamos con el equipo indicado.
       </p>
       <div class="btn-row">
-        <a class="btn btn--primary" href="/">Ir al inicio</a>
-        <a class="btn btn--ghost" href="/#contacto">Contactar al grupo</a>
+        <a class="btn btn--primary" href={ruta('/')}>Ir al inicio</a>
+        <a class="btn btn--ghost" href={`${ruta('/')}#contacto`}>Contactar al grupo</a>
       </div>
     </div>
   </section>

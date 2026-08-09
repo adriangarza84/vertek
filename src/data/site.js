@@ -21,6 +21,16 @@ export const site = {
 };
 
 // ---------------------------------------------------------------
+// RUTAS
+// En GitHub Pages el sitio se publica en un subdirectorio (/vertek/), así
+// que todos los enlaces internos absolutos deben pasar por ruta(). Al migrar
+// a vertek.mx, base pasa a '/' y ruta() deja de agregar prefijo sola.
+// ---------------------------------------------------------------
+
+export const ruta = (camino = '/') =>
+  `${import.meta.env.BASE_URL.replace(/\/$/, '')}${camino}`;
+
+// ---------------------------------------------------------------
 // NAVEGACIÓN (una sola página con anclas)
 // ---------------------------------------------------------------
 

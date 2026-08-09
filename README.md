@@ -21,6 +21,20 @@ npm run build
 `npm run dev` abre en `http://localhost:4321`. El build genera `dist/` listo
 para publicar en Vercel, Netlify, Cloudflare Pages o cualquier hosting estático.
 
+## Publicación
+
+**Vista previa (actual):** https://adriangarza84.github.io/vertek/
+
+Cada push a `main` dispara `.github/workflows/deploy.yml`, que compila con
+`GITHUB_PAGES=true` y publica en GitHub Pages. El workflow activa Pages por API
+la primera vez, así que no hace falta tocar Settings.
+
+**Al migrar a `vertek.mx`:** no hay que cambiar código. El build sin la variable
+`GITHUB_PAGES` ya sale con `site: 'https://vertek.mx'` y `base: '/'`, así que
+basta apuntar el hosting (o el dominio personalizado de Pages) al build normal
+de `npm run build`. Los enlaces internos pasan todos por el helper `ruta()` de
+`src/data/site.js`, por eso funcionan en ambos destinos.
+
 ## Estructura
 
 ```

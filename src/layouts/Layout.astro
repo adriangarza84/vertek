@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { site, empresas } from '../data/site.js';
+import { site, empresas, ruta } from '../data/site.js';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
@@ -12,14 +12,20 @@ const {
   noindex = false,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+// Con base '/vertek' la portada llega como '/vertek' sin barra final; la
+// normalizamos para que el canonical coincida con lo que emite el sitemap.
+const rutaActual = Astro.url.pathname.endsWith('/')
+  ? Astro.url.pathname
+  : `${Astro.url.pathname}/`;
+const canonical = new URL(rutaActual, Astro.site).href;
+const ogImagen = new URL(ruta('/og.png'), Astro.site).href;
 
 const organizacion = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Vertek',
   alternateName: 'Vertek Industrial Holding',
-  url: site.dominio,
+  url: new URL(ruta('/'), Astro.site).href,
   email: site.correo,
   description: site.claimCorto,
   address: {
@@ -55,14 +61,14 @@ const organizacion = {
     <meta property="og:description" content={ogDescripcion} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="Vertek" />
-    <meta property="og:image" content={new URL('/og.png', Astro.site).href} />
+    <meta property="og:image" content={ogImagen} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Vertek — Industrial Holding" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content={new URL('/og.png', Astro.site).href} />
+    <meta name="twitter:image" content={ogImagen} />
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={ruta('/favicon.svg')} type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
