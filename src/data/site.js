@@ -119,8 +119,8 @@ export const empresas = [
     categoria: 'Bridas y válvulas',
     texto:
       'Suministro de bridas y válvulas industriales para control de fluidos y conexiones críticas en sistemas de alta exigencia.',
-    cta: 'Sitio próximamente',
-    href: null,
+    cta: 'Visitar Apex',
+    href: 'https://adriangarza84.github.io/apex/', // [confirmar] dominio definitivo
   },
   {
     nombre: 'Tecnocranes',

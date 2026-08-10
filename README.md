@@ -86,21 +86,22 @@ técnico como textura de fondo y la geometría de la "V" como motivo del hero.
 
 Macero · Valltor · Apex · Tecnocranes · Orme · Fyron · Subestaciones Juárez.
 
-El orden y los textos salen de `empresas` en `src/data/site.js`. Apex aparece
-sin enlace, con la etiqueta "Sitio próximamente".
+El orden y los textos salen de `empresas` en `src/data/site.js`. Las siete
+tienen enlace a su sitio; si alguna se queda sin web, basta con poner su
+`href` en `null` y la tarjeta pasa sola al estado "próximamente".
 
 ## Pendientes antes de publicar
 
 1. **Endpoint del formulario** — `site.formEndpoint` apunta a un placeholder de
    Formspree. Sustituir por el endpoint real (Formspree, Basin, Netlify Forms o
    un handler propio).
-2. **Dominios definitivos de Orme y Fyron** — hoy apuntan a
-   `orme-psi.vercel.app` y `adriangarza84.github.io/fyron`. Actualizar en
-   `empresas` cuando tengan dominio propio.
-3. **URL de Apex** — cuando salga el sitio, agregar `href` y cambiar el CTA.
-4. **Razón social y domicilio fiscal** — el aviso de privacidad los deja
+2. **Dominios definitivos de Apex, Orme y Fyron** — hoy apuntan a
+   `adriangarza84.github.io/apex`, `orme-psi.vercel.app` y
+   `adriangarza84.github.io/fyron`. Actualizar en `empresas` cuando tengan
+   dominio propio.
+3. **Razón social y domicilio fiscal** — el aviso de privacidad los deja
    señalados como pendientes de confirmar.
-5. **Analítica** — no se instaló ninguna. Si se quiere, se agrega en
+4. **Analítica** — no se instaló ninguna. Si se quiere, se agrega en
    `src/layouts/Layout.astro`.
 
 ## Nota sobre `og.png`
