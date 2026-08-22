@@ -143,7 +143,7 @@ export const empresas = [
     categoria: 'Protección contra incendio',
     texto:
       'Integrador de sistemas contra incendio bajo criterio NFPA: diseño e ingeniería, instalación, mantenimiento (ITM) y suministro de material certificado, bajo una sola responsabilidad técnica.',
-    cta: 'Visitar sitio',
+    cta: 'Visitar fyron.mx',
     href: 'https://fyron.mx',
   },
   {
