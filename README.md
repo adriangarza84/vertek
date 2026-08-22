@@ -95,10 +95,9 @@ tienen enlace a su sitio; si alguna se queda sin web, basta con poner su
 1. **Endpoint del formulario** — `site.formEndpoint` apunta a un placeholder de
    Formspree. Sustituir por el endpoint real (Formspree, Basin, Netlify Forms o
    un handler propio).
-2. **Dominios definitivos de Apex, Orme y Fyron** — hoy apuntan a
-   `adriangarza84.github.io/apex`, `orme-psi.vercel.app` y
-   `adriangarza84.github.io/fyron`. Actualizar en `empresas` cuando tengan
-   dominio propio.
+2. **Dominio definitivo de Apex y Orme** — hoy apuntan a
+   `apex-blond-seven.vercel.app` y `orme-psi.vercel.app`. Actualizar en
+   `empresas` cuando tengan dominio propio. Fyron ya está en `fyron.mx`.
 3. **Razón social y domicilio fiscal** — el aviso de privacidad los deja
    señalados como pendientes de confirmar.
 4. **Analítica** — no se instaló ninguna. Si se quiere, se agrega en

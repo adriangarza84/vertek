@@ -120,7 +120,7 @@ export const empresas = [
     texto:
       'Suministro de bridas y válvulas industriales para control de fluidos y conexiones críticas en sistemas de alta exigencia.',
     cta: 'Visitar Apex',
-    href: 'https://adriangarza84.github.io/apex/', // [confirmar] dominio definitivo
+    href: 'https://apex-blond-seven.vercel.app',
   },
   {
     nombre: 'Tecnocranes',
@@ -144,7 +144,7 @@ export const empresas = [
     texto:
       'Integrador de sistemas contra incendio bajo criterio NFPA: diseño e ingeniería, instalación, mantenimiento (ITM) y suministro de material certificado, bajo una sola responsabilidad técnica.',
     cta: 'Visitar sitio',
-    href: 'https://adriangarza84.github.io/fyron/', // [confirmar] dominio definitivo
+    href: 'https://fyron.mx',
   },
   {
     nombre: 'Subestaciones Juárez',
