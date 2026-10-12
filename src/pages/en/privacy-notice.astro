@@ -1,0 +1,103 @@
+---
+import Legal from '../../layouts/Legal.astro';
+import { site } from '../../data/site.js';
+import { contenido } from '../../data/contenido.js';
+import { rutaDe } from '../../i18n/config.js';
+
+const idioma = 'en';
+const { meta } = contenido(idioma);
+
+// La versión en español manda; el enlace pasa por la tabla de rutas
+// para que no se rompa bajo la base de la vista previa.
+const rEspanol = rutaDe('privacidad', 'es');
+---
+
+<Legal
+  idioma={idioma}
+  paginaId="privacidad"
+  titulo={meta.privacidad.titulo}
+  descripcion={meta.privacidad.descripcion}
+  encabezado={meta.privacidad.encabezado}
+  actualizado={meta.privacidad.actualizado}
+>
+  <h2>Data controller</h2>
+  <p>
+    Vertek —hereinafter "Vertek" or "the group"— with address in {site.ciudad},
+    is responsible for the processing of the personal data we collect through
+    this site, in accordance with the Mexican Federal Law on the Protection of
+    Personal Data Held by Private Parties (Ley Federal de Protección de Datos
+    Personales en Posesión de los Particulares). The full legal name and tax
+    address will be confirmed prior to publication of the site.
+  </p>
+
+  <h2>Data we collect</h2>
+  <p>
+    Through the contact form we collect only the data needed to handle your
+    request:
+  </p>
+  <ul>
+    <li>Full name</li>
+    <li>Company</li>
+    <li>Work email</li>
+    <li>Phone</li>
+    <li>The content of the message or requirement you send us</li>
+  </ul>
+  <p>
+    We do not collect sensitive, financial or asset-related personal data
+    through this site.
+  </p>
+
+  <h2>Purposes of processing</h2>
+  <p>The data you provide is used to:</p>
+  <ul>
+    <li>Respond to your request for information or contact.</li>
+    <li>
+      Route your requirement to the company in the group that corresponds
+      —Macero, Valltor, Apex, Tecnocranes, Orme, Fyron or Subestaciones
+      Juárez— when this is necessary to assist you.
+    </li>
+    <li>Prepare and follow up on technical and commercial proposals.</li>
+    <li>
+      Maintain the records and communication arising from the commercial
+      relationship.
+    </li>
+  </ul>
+
+  <h2>Transfers</h2>
+  <p>
+    Your data may be shared with the companies that form part of Vertek for the
+    sole purpose of handling your request. We do not transfer your data to
+    third parties outside the group without your consent, except in the cases
+    provided for in article 37 of the Law.
+  </p>
+
+  <h2>ARCO rights</h2>
+  <p>
+    You may at any time request access to, rectification or cancellation of, or
+    object to the processing of your personal data, as well as withdraw your
+    consent, by writing to
+    <a href={`mailto:${site.correo}`}>{site.correo}</a>. Your request must
+    include your name, a means of contact and a clear description of the right
+    you wish to exercise.
+  </p>
+
+  <h2>Security measures</h2>
+  <p>
+    We apply reasonable administrative, technical and physical measures to
+    protect your personal data against damage, loss, alteration, destruction or
+    unauthorized use and access.
+  </p>
+
+  <h2>Changes to this notice</h2>
+  <p>
+    Any change to this privacy notice will be published on this same page. We
+    recommend reviewing it periodically.
+  </p>
+
+  <h2>Governing version</h2>
+  <p>
+    This is a courtesy translation. The privacy notice is governed by Mexican
+    law, and in the event of any discrepancy the
+    <a href={rEspanol}>Spanish version</a> shall prevail.
+  </p>
+</Legal>

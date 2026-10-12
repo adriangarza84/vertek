@@ -4,6 +4,10 @@ Sitio del holding industrial Vertek. Construido en **Astro 5**, estático, sin
 dependencias de framework y sin JavaScript de cliente más allá de dos scripts
 mínimos (menú móvil y revelado al hacer scroll).
 
+**Bilingüe:** español como idioma principal en la raíz, inglés bajo `/en/`. Las
+dos versiones se generan estáticamente; el cambio de idioma es un enlace, no
+JavaScript ni un traductor automático.
+
 ## Arrancar
 
 ```bash
@@ -23,30 +27,39 @@ para publicar en Vercel, Netlify, Cloudflare Pages o cualquier hosting estático
 
 ## Publicación
 
-**Vista previa (actual):** https://adriangarza84.github.io/vertek/
+**Producción:** https://vertek.mx — servida por **Vercel**, conectada al repo.
+Cada push a `main` dispara el build (`npm run build`, sin variables) y el
+despliegue. No hay `vercel.json`: la configuración vive en el panel de Vercel.
 
-Cada push a `main` dispara `.github/workflows/deploy.yml`, que compila con
-`GITHUB_PAGES=true` y publica en GitHub Pages. El workflow activa Pages por API
-la primera vez, así que no hace falta tocar Settings.
+**Vista previa:** https://adriangarza84.github.io/vertek/ — cada push a `main`
+dispara además `.github/workflows/deploy.yml`, que compila con
+`GITHUB_PAGES=true` y publica en GitHub Pages bajo `/vertek/`.
 
-**Al migrar a `vertek.mx`:** no hay que cambiar código. El build sin la variable
-`GITHUB_PAGES` ya sale con `site: 'https://vertek.mx'` y `base: '/'`, así que
-basta apuntar el hosting (o el dominio personalizado de Pages) al build normal
-de `npm run build`. Los enlaces internos pasan todos por el helper `ruta()` de
-`src/data/site.js`, por eso funcionan en ambos destinos.
+Los dos destinos salen del mismo código. Los enlaces internos pasan todos por
+el helper `ruta()` de `src/data/site.js` y por la tabla de
+`src/i18n/config.js`, por eso funcionan en la raíz y bajo un subdirectorio.
 
 ## Estructura
 
 ```
 src/
-  data/site.js          ← TODO el contenido y la configuración
+  data/
+    site.js             ← config neutral al idioma + enlaces de las empresas
+    contenido.es.js     ← TODO el copy en español
+    contenido.en.js     ← TODO el copy en inglés (mismas claves)
+    contenido.js        ← une copy + enlaces: contenido('es') | contenido('en')
+  i18n/
+    config.js           ← idiomas, locales y tabla de rutas por idioma
+    ui.js               ← cadenas de interfaz (navegación, formulario, pie)
   styles/global.css     ← sistema de diseño (tokens + utilidades)
   layouts/
-    Layout.astro        ← head, SEO, schema.org, header, footer
+    Layout.astro        ← head, SEO, hreflang, schema.org, header, footer
     Legal.astro         ← plantilla de páginas legales
+  paginas/
+    Portada.astro       ← portada compartida por los dos idiomas
   components/
     Logo.astro          ← logotipo tipográfico (palabra + regla + descriptor)
-    Header.astro        ← navegación sticky con resaltado de sección
+    Header.astro        ← navegación sticky + selector de idioma
     Hero.astro
     Grupo.astro         ← #grupo
     Empresas.astro      ← #empresas (las 7 empresas)
@@ -56,18 +69,41 @@ src/
     Contacto.astro      ← #contacto (formulario)
     Footer.astro
   pages/
-    index.astro         ← una sola página con anclas
+    index.astro         ← español, en la raíz
     aviso-de-privacidad.astro
-    404.astro
+    404.astro           ← bilingüe (el host sirve este mismo para todo)
+    en/
+      index.astro       ← inglés, bajo /en/
+      privacy-notice.astro
 public/
   favicon.svg
   og.png                ← imagen para redes sociales (1200×630)
   robots.txt
 ```
 
-**Todo el copy vive en `src/data/site.js`.** Para cambiar un texto, un nombre de
-empresa, una URL o un sector, se edita ese archivo y cambia en todo el sitio
-(incluidos el footer y el schema.org de Google).
+## Dónde se edita el contenido
+
+| Qué | Dónde |
+| --- | --- |
+| Copy de las secciones | `src/data/contenido.es.js` y `contenido.en.js` |
+| Navegación, botones, formulario, pie | `src/i18n/ui.js` |
+| Correo, ciudad, endpoint del formulario | `src/data/site.js` |
+| URL de una empresa | `enlacesEmpresas` en `src/data/site.js` (una sola vez) |
+| Rutas y slugs por idioma | `rutas` en `src/i18n/config.js` |
+| Texto legal | `src/pages/aviso-de-privacidad.astro` y `en/privacy-notice.astro` |
+
+Reglas que conviene no romper:
+
+- **`contenido.es.js` y `contenido.en.js` son gemelos.** Misma forma, mismas
+  claves. Si añades una clave en uno, añádela en el otro o la versión que falte
+  se queda sin ese texto.
+- **Las URL de las empresas viven una sola vez**, en `enlacesEmpresas`,
+  emparejadas por `id`. Así cambiar un dominio no deja el otro idioma
+  apuntando al sitio viejo.
+- **Los `id` de sección no se traducen** (`#empresas`, `#contacto`…). Por eso
+  el ancla sigue funcionando al cambiar de idioma.
+- **Ningún componente escribe texto visible directamente**: todo pasa por
+  `contenido()` o por `traducir()`.
 
 ## Dirección de diseño
 
@@ -86,9 +122,10 @@ técnico como textura de fondo y la geometría de la "V" como motivo del hero.
 
 Macero · Valltor · Apex · Tecnocranes · Orme · Fyron · Subestaciones Juárez.
 
-El orden y los textos salen de `empresas` en `src/data/site.js`. Las siete
-tienen enlace a su sitio; si alguna se queda sin web, basta con poner su
-`href` en `null` y la tarjeta pasa sola al estado "próximamente".
+El orden y los textos salen de `empresas` en `src/data/contenido.es.js` y
+`contenido.en.js`; el enlace, de `enlacesEmpresas` en `src/data/site.js`. Las
+siete tienen sitio; si alguna se queda sin web, basta con quitar su entrada de
+`enlacesEmpresas` y la tarjeta pasa sola al estado "próximamente".
 
 ## Pendientes antes de publicar
 
@@ -97,7 +134,8 @@ tienen enlace a su sitio; si alguna se queda sin web, basta con poner su
    un handler propio).
 2. **Dominio definitivo de Apex y Orme** — hoy apuntan a
    `apex-blond-seven.vercel.app` y `orme-psi.vercel.app`. Actualizar en
-   `empresas` cuando tengan dominio propio. Fyron ya está en `fyron.mx`.
+   `enlacesEmpresas` (`src/data/site.js`) cuando tengan dominio propio; con eso
+   cambian los dos idiomas a la vez. Fyron ya está en `fyron.mx`.
 3. **Razón social y domicilio fiscal** — el aviso de privacidad los deja
    señalados como pendientes de confirmar.
 4. **Analítica** — no se instaló ninguna. Si se quiere, se agrega en

@@ -1,10 +1,17 @@
 ---
 import Logo from './Logo.astro';
-import { site, footer, empresas, nav, ruta } from '../data/site.js';
+import { site } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+import { traducir } from '../i18n/ui.js';
+import { ancla, rutaDe } from '../i18n/config.js';
+
+const { idioma } = Astro.props;
+const { footer, empresas, nav } = contenido(idioma);
+const t = traducir(idioma);
 
 const anio = new Date().getFullYear();
-const enlacesGrupo = [...nav, { titulo: 'Contacto', href: '#contacto' }];
-const ancla = (href) => `${ruta('/')}${href}`;
+const enlacesGrupo = [...nav, { titulo: t.footerContacto, href: '#contacto' }];
+const rPrivacidad = rutaDe('privacidad', idioma);
 ---
 
 <footer class="footer">
@@ -15,21 +22,21 @@ const ancla = (href) => `${ruta('/')}${href}`;
       <p class="footer__firma">{footer.firma}</p>
     </div>
 
-    <nav class="footer__col" aria-label="Grupo">
-      <h2 class="footer__h">Grupo</h2>
+    <nav class="footer__col" aria-label={t.footerGrupo}>
+      <h2 class="footer__h">{t.footerGrupo}</h2>
       <ul>
         {
           enlacesGrupo.map((i) => (
             <li>
-              <a href={ancla(i.href)}>{i.titulo}</a>
+              <a href={ancla(i.href, idioma)}>{i.titulo}</a>
             </li>
           ))
         }
       </ul>
     </nav>
 
-    <nav class="footer__col" aria-label="Empresas">
-      <h2 class="footer__h">Empresas</h2>
+    <nav class="footer__col" aria-label={t.footerEmpresas}>
+      <h2 class="footer__h">{t.footerEmpresas}</h2>
       <ul>
         {
           empresas.map((e) => (
@@ -40,7 +47,7 @@ const ancla = (href) => `${ruta('/')}${href}`;
                 </a>
               ) : (
                 <span class="footer__plain">
-                  {e.nombre} <em>próximamente</em>
+                  {e.nombre} <em>{t.footerProximamente}</em>
                 </span>
               )}
             </li>
@@ -50,19 +57,19 @@ const ancla = (href) => `${ruta('/')}${href}`;
     </nav>
 
     <div class="footer__col">
-      <h2 class="footer__h">Contacto</h2>
+      <h2 class="footer__h">{t.footerContacto}</h2>
       <ul>
         <li><a href={`mailto:${site.correo}`}>{site.correo}</a></li>
         <li class="footer__plain">{site.ciudad}</li>
-        <li class="footer__plain">Cobertura nacional</li>
+        <li class="footer__plain">{t.footerCobertura}</li>
       </ul>
     </div>
   </div>
 
   <div class="wrap footer__legal">
-    <p>© {anio} {site.nombre}. Todos los derechos reservados.</p>
-    <nav aria-label="Legales">
-      <a href={ruta('/aviso-de-privacidad/')}>Aviso de privacidad</a>
+    <p>© {anio} {site.nombre}. {t.footerDerechos}</p>
+    <nav aria-label={t.footerLegales}>
+      <a href={rPrivacidad}>{t.footerAviso}</a>
     </nav>
   </div>
 </footer>

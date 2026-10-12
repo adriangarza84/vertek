@@ -10,9 +10,18 @@ const enPages = process.env.GITHUB_PAGES === 'true';
 export default defineConfig({
   site: enPages ? 'https://adriangarza84.github.io' : 'https://vertek.mx',
   base: enPages ? '/vertek' : '/',
-  // El aviso de privacidad va como noindex: fuera del sitemap.
   integrations: [
-    sitemap({ filter: (page) => !page.includes('/aviso-de-privacidad') }),
+    sitemap({
+      // Español en la raíz, inglés bajo /en/. Con esto el sitemap emite
+      // las alternas hreflang entre las dos versiones de cada página.
+      i18n: {
+        defaultLocale: 'es',
+        locales: { es: 'es-MX', en: 'en-US' },
+      },
+      // El aviso de privacidad va como noindex, en los dos idiomas:
+      // fuera del sitemap.
+      filter: (page) => !/(aviso-de-privacidad|privacy-notice)/.test(page),
+    }),
   ],
   build: {
     inlineStylesheets: 'auto',

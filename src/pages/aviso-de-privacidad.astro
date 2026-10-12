@@ -1,13 +1,19 @@
 ---
 import Legal from '../layouts/Legal.astro';
 import { site } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+
+const idioma = 'es';
+const { meta } = contenido(idioma);
 ---
 
 <Legal
-  titulo="Aviso de privacidad | Vertek"
-  descripcion="Aviso de privacidad de Vertek: tratamiento de datos personales recabados a través del sitio."
-  encabezado="Aviso de privacidad"
-  actualizado="Agosto 2026"
+  idioma={idioma}
+  paginaId="privacidad"
+  titulo={meta.privacidad.titulo}
+  descripcion={meta.privacidad.descripcion}
+  encabezado={meta.privacidad.encabezado}
+  actualizado={meta.privacidad.actualizado}
 >
   <h2>Responsable del tratamiento</h2>
   <p>

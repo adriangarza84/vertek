@@ -1,38 +1,76 @@
 ---
 import Logo from './Logo.astro';
-import { nav, ruta } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+import { traducir } from '../i18n/ui.js';
+import {
+  ancla,
+  hreflang,
+  otroIdioma,
+  rutaDe,
+} from '../i18n/config.js';
 
-// Las anclas se resuelven contra la portada para que también funcionen
-// desde las páginas legales y el 404.
-const ancla = (href) => `${ruta('/')}${href}`;
+const { idioma, paginaId } = Astro.props;
+
+const c = contenido(idioma);
+const t = traducir(idioma);
+
+const otro = otroIdioma(idioma);
+// El selector lleva a la página equivalente, no a la portada.
+const rOtroIdioma = rutaDe(paginaId, otro);
 ---
 
 <header class="header" data-header>
   <div class="wrap header__inner">
-    <a class="header__brand" href={ruta('/')} aria-label="Vertek, inicio">
+    <a
+      class="header__brand"
+      href={rutaDe('inicio', idioma)}
+      aria-label={t.navIrAlInicio}
+    >
       <Logo variant="full" size={1.35} />
     </a>
 
-    <nav class="header__nav" aria-label="Navegación principal">
+    <nav class="header__nav" aria-label={t.navPrincipal}>
       {
-        nav.map((item) => (
-          <a class="header__link" href={ancla(item.href)} data-spy={item.href}>
+        c.nav.map((item) => (
+          <a
+            class="header__link"
+            href={ancla(item.href, idioma)}
+            data-spy={item.href}
+          >
             {item.titulo}
           </a>
         ))
       }
     </nav>
 
-    <a class="btn btn--primary btn--sm header__cta" href={ancla('#contacto')}>
-      Contacto
+    <a
+      class="header__idioma"
+      href={rOtroIdioma}
+      lang={otro}
+      hreflang={hreflang[otro]}
+      title={t.idiomaCambiar}
+    >
+      <span class="sr-only">{t.idiomaCambiar}</span>
+      <span aria-hidden="true">
+        <b>{t.idiomaCodigoActual}</b><i>/</i>{t.idiomaCodigoOtro}
+      </span>
+    </a>
+
+    <a
+      class="btn btn--primary btn--sm header__cta"
+      href={ancla('#contacto', idioma)}
+    >
+      {t.ctaContacto}
     </a>
 
     <button
       class="burger"
       type="button"
-      aria-label="Abrir menú"
+      aria-label={t.navAbrirMenu}
       aria-expanded="false"
       aria-controls="menu-movil"
+      data-abrir={t.navAbrirMenu}
+      data-cerrar={t.navCerrarMenu}
     >
       <span></span><span></span><span></span>
     </button>
@@ -41,14 +79,17 @@ const ancla = (href) => `${ruta('/')}${href}`;
   <div class="movil" id="menu-movil" hidden>
     <div class="wrap movil__inner">
       {
-        nav.map((item) => (
-          <a class="movil__link" href={ancla(item.href)}>
+        c.nav.map((item) => (
+          <a class="movil__link" href={ancla(item.href, idioma)}>
             {item.titulo}
           </a>
         ))
       }
-      <a class="btn btn--primary movil__cta" href={ancla('#contacto')}>
-        Contactar al grupo
+      <a
+        class="btn btn--primary movil__cta"
+        href={ancla('#contacto', idioma)}
+      >
+        {t.ctaContactarGrupo}
       </a>
     </div>
   </div>
@@ -105,6 +146,43 @@ const ancla = (href) => `${ruta('/')}${href}`;
   .header__link.is-active {
     color: var(--ink-900);
     border-bottom-color: var(--ink-900);
+  }
+
+  /* ---------- Selector de idioma ----------
+     Siempre visible, también en móvil: es el control que permite
+     salir de un idioma que no entiendes. */
+
+  .header__idioma {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    height: 34px;
+    padding-inline: 0.7rem;
+    border: 1px solid var(--concrete-200);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.12em;
+    color: var(--steel-500);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.16s ease, border-color 0.16s ease;
+  }
+
+  .header__idioma:hover {
+    color: var(--ink-900);
+    border-color: var(--ink-800);
+  }
+
+  /* El idioma activo se marca en oscuro; el otro queda en gris. */
+  .header__idioma b {
+    font-weight: 500;
+    color: var(--ink-900);
+  }
+
+  .header__idioma i {
+    font-style: normal;
+    padding-inline: 0.3rem;
+    color: var(--concrete-200);
   }
 
   .burger {
@@ -167,6 +245,9 @@ const ancla = (href) => `${ruta('/')}${href}`;
     .header__cta {
       display: none;
     }
+    .header__inner {
+      gap: 0.75rem;
+    }
   }
 </style>
 
@@ -175,10 +256,15 @@ const ancla = (href) => `${ruta('/')}${href}`;
   const burger = document.querySelector('.burger');
   const panel = document.getElementById('menu-movil');
 
+  // Las etiquetas vienen del marcado para que el script sirva igual en
+  // español y en inglés.
+  const etiquetaAbrir = burger?.dataset.abrir ?? 'Abrir menú';
+  const etiquetaCerrar = burger?.dataset.cerrar ?? 'Cerrar menú';
+
   burger?.addEventListener('click', () => {
     const abierto = burger.getAttribute('aria-expanded') === 'true';
     burger.setAttribute('aria-expanded', String(!abierto));
-    burger.setAttribute('aria-label', abierto ? 'Abrir menú' : 'Cerrar menú');
+    burger.setAttribute('aria-label', abierto ? etiquetaAbrir : etiquetaCerrar);
     if (panel) panel.hidden = abierto;
   });
 
@@ -187,7 +273,7 @@ const ancla = (href) => `${ruta('/')}${href}`;
     a.addEventListener('click', () => {
       panel.hidden = true;
       burger?.setAttribute('aria-expanded', 'false');
-      burger?.setAttribute('aria-label', 'Abrir menú');
+      burger?.setAttribute('aria-label', etiquetaAbrir);
     })
   );
 

@@ -1,5 +1,8 @@
 ---
-import { respaldo } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+
+const { idioma } = Astro.props;
+const { respaldo } = contenido(idioma);
 ---
 
 <section

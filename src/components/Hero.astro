@@ -1,5 +1,8 @@
 ---
-import { hero } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+
+const { idioma } = Astro.props;
+const { hero } = contenido(idioma);
 ---
 
 <section class="hero" aria-labelledby="hero-titulo">

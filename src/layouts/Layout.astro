@@ -1,10 +1,26 @@
 ---
 import '../styles/global.css';
-import { site, empresas, ruta } from '../data/site.js';
+import { site, ruta } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+import { traducir } from '../i18n/ui.js';
+import {
+  hreflang,
+  idiomaPredeterminado,
+  idiomas,
+  localeHtml,
+  localeOg,
+  otroIdioma,
+  rutaDe,
+  rutas,
+} from '../i18n/config.js';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 const {
+  idioma = idiomaPredeterminado,
+  // Id de la tabla de rutas. En null (el 404) la página no es una ruta
+  // real: no lleva canonical ni alternas de idioma.
+  paginaId = null,
   titulo,
   descripcion,
   ogTitulo = titulo,
@@ -12,12 +28,29 @@ const {
   noindex = false,
 } = Astro.props;
 
-// Con base '/vertek' la portada llega como '/vertek' sin barra final; la
-// normalizamos para que el canonical coincida con lo que emite el sitemap.
-const rutaActual = Astro.url.pathname.endsWith('/')
-  ? Astro.url.pathname
-  : `${Astro.url.pathname}/`;
-const canonical = new URL(rutaActual, Astro.site).href;
+const c = contenido(idioma);
+const t = traducir(idioma);
+
+// El selector de idioma del encabezado necesita una página a la que ir;
+// desde el 404 lleva a la portada del otro idioma.
+const paginaHeader = paginaId ?? 'inicio';
+
+const enRutas = paginaId !== null && Object.hasOwn(rutas, paginaId);
+
+// El canonical sale de la tabla de rutas, no del pathname: así coincide
+// siempre con lo que emiten el sitemap y las etiquetas hreflang.
+const canonical = enRutas
+  ? new URL(rutaDe(paginaId, idioma), Astro.site).href
+  : null;
+
+const alternas = enRutas
+  ? idiomas.map((codigo) => ({
+      codigo,
+      hreflang: hreflang[codigo],
+      href: new URL(rutaDe(paginaId, codigo), Astro.site).href,
+    }))
+  : [];
+
 const ogImagen = new URL(ruta('/og.png'), Astro.site).href;
 
 const organizacion = {
@@ -27,7 +60,7 @@ const organizacion = {
   alternateName: 'Vertek Industrial Holding',
   url: new URL(ruta('/'), Astro.site).href,
   email: site.correo,
-  description: site.claimCorto,
+  description: c.claimCorto,
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'San Pedro Garza García',
@@ -35,7 +68,7 @@ const organizacion = {
     addressCountry: 'MX',
   },
   areaServed: { '@type': 'Country', name: 'México' },
-  subOrganization: empresas.map((e) => ({
+  subOrganization: c.empresas.map((e) => ({
     '@type': 'Organization',
     name: e.nombre,
     description: e.categoria,
@@ -45,21 +78,39 @@ const organizacion = {
 ---
 
 <!doctype html>
-<html lang="es-MX">
+<html lang={localeHtml[idioma]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
-    <link rel="canonical" href={canonical} />
+    {canonical && <link rel="canonical" href={canonical} />}
     <meta name="theme-color" content="#ffffff" />
     {noindex && <meta name="robots" content="noindex, follow" />}
 
+    {/* Versiones por idioma. x-default apunta al español, que es el
+        idioma principal del sitio. */}
+    {
+      alternas.map((a) => (
+        <link rel="alternate" hreflang={a.hreflang} href={a.href} />
+      ))
+    }
+    {
+      enRutas && (
+        <link
+          rel="alternate"
+          hreflang="x-default"
+          href={new URL(rutaDe(paginaId, idiomaPredeterminado), Astro.site).href}
+        />
+      )
+    }
+
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_MX" />
+    <meta property="og:locale" content={localeOg[idioma]} />
+    <meta property="og:locale:alternate" content={localeOg[otroIdioma(idioma)]} />
     <meta property="og:title" content={ogTitulo} />
     <meta property="og:description" content={ogDescripcion} />
-    <meta property="og:url" content={canonical} />
+    {canonical && <meta property="og:url" content={canonical} />}
     <meta property="og:site_name" content="Vertek" />
     <meta property="og:image" content={ogImagen} />
     <meta property="og:image:width" content="1200" />
@@ -83,12 +134,12 @@ const organizacion = {
   </head>
 
   <body>
-    <a class="skip-link" href="#contenido">Ir al contenido</a>
-    <Header />
+    <a class="skip-link" href="#contenido">{t.irAlContenido}</a>
+    <Header idioma={idioma} paginaId={paginaHeader} />
     <main id="contenido">
       <slot />
     </main>
-    <Footer />
+    <Footer idioma={idioma} />
 
     <script>
       const items = document.querySelectorAll('.reveal');

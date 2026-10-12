@@ -1,5 +1,8 @@
 ---
-import { grupo } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+
+const { idioma } = Astro.props;
+const { grupo } = contenido(idioma);
 ---
 
 <section class="section" id="grupo" aria-labelledby="grupo-titulo">

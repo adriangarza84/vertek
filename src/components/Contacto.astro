@@ -1,5 +1,15 @@
 ---
-import { contacto, site, ruta } from '../data/site.js';
+import { site } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+import { traducir } from '../i18n/ui.js';
+import { rutaDe } from '../i18n/config.js';
+
+const { idioma } = Astro.props;
+const { contacto } = contenido(idioma);
+const t = traducir(idioma);
+
+// El aviso de privacidad del idioma actual, no el de la versión en español.
+const rPrivacidad = rutaDe('privacidad', idioma);
 ---
 
 <section class="section section--line" id="contacto" aria-labelledby="contacto-titulo">
@@ -11,13 +21,13 @@ import { contacto, site, ruta } from '../data/site.js';
 
       <dl class="cont__datos">
         <div>
-          <dt>Correo del grupo</dt>
+          <dt>{t.contactoCorreoGrupo}</dt>
           <dd>
             <a class="link-tec" href={`mailto:${site.correo}`}>{site.correo}</a>
           </dd>
         </div>
         <div>
-          <dt>Sede</dt>
+          <dt>{t.contactoSede}</dt>
           <dd>{site.ciudad}</dd>
         </div>
       </dl>
@@ -30,12 +40,12 @@ import { contacto, site, ruta } from '../data/site.js';
       aria-labelledby="contacto-titulo"
     >
       <div class="form__campo">
-        <label for="nombre">Nombre completo</label>
+        <label for="nombre">{t.formNombre}</label>
         <input id="nombre" name="nombre" type="text" required autocomplete="name" />
       </div>
 
       <div class="form__campo">
-        <label for="empresa">Empresa</label>
+        <label for="empresa">{t.formEmpresa}</label>
         <input
           id="empresa"
           name="empresa"
@@ -47,7 +57,7 @@ import { contacto, site, ruta } from '../data/site.js';
 
       <div class="form__fila">
         <div class="form__campo">
-          <label for="correo">Correo corporativo</label>
+          <label for="correo">{t.formCorreo}</label>
           <input
             id="correo"
             name="correo"
@@ -57,7 +67,7 @@ import { contacto, site, ruta } from '../data/site.js';
           />
         </div>
         <div class="form__campo">
-          <label for="telefono">Teléfono</label>
+          <label for="telefono">{t.formTelefono}</label>
           <input
             id="telefono"
             name="telefono"
@@ -69,7 +79,7 @@ import { contacto, site, ruta } from '../data/site.js';
       </div>
 
       <div class="form__campo">
-        <label for="mensaje">Mensaje / requerimiento</label>
+        <label for="mensaje">{t.formMensaje}</label>
         <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
       </div>
 
@@ -83,12 +93,11 @@ import { contacto, site, ruta } from '../data/site.js';
       />
 
       <button class="btn btn--primary form__enviar" type="submit">
-        Enviar mensaje
+        {t.formEnviar}
       </button>
 
       <p class="form__nota">
-        Al enviar este formulario aceptas el tratamiento de tus datos conforme
-        a nuestro <a href={ruta('/aviso-de-privacidad/')}>aviso de privacidad</a>.
+        {t.formNotaAntes}<a href={rPrivacidad}>{t.formNotaEnlace}</a>{t.formNotaDespues}
       </p>
     </form>
   </div>

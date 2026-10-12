@@ -1,15 +1,36 @@
 ---
 import Layout from './Layout.astro';
+import { traducir } from '../i18n/ui.js';
+import { idiomaPredeterminado } from '../i18n/config.js';
 
-const { titulo, descripcion, encabezado, actualizado } = Astro.props;
+const {
+  idioma = idiomaPredeterminado,
+  paginaId,
+  titulo,
+  descripcion,
+  encabezado,
+  actualizado,
+} = Astro.props;
+
+const t = traducir(idioma);
 ---
 
-<Layout titulo={titulo} descripcion={descripcion} noindex={true}>
+<Layout
+  idioma={idioma}
+  paginaId={paginaId}
+  titulo={titulo}
+  descripcion={descripcion}
+  noindex={true}
+>
   <section class="legal-hero">
     <div class="wrap">
-      <p class="eyebrow">Legal</p>
+      <p class="eyebrow">{t.legalEyebrow}</p>
       <h1 class="title">{encabezado}</h1>
-      {actualizado && <p class="legal-fecha">Última actualización: {actualizado}</p>}
+      {
+        actualizado && (
+          <p class="legal-fecha">{t.legalActualizado} {actualizado}</p>
+        )
+      }
     </div>
   </section>
 

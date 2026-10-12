@@ -1,0 +1,34 @@
+---
+// Portada compartida por los dos idiomas. Las páginas de src/pages solo
+// eligen el idioma; el orden de las secciones se define una sola vez,
+// aquí, para que no se desincronicen español e inglés.
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Grupo from '../components/Grupo.astro';
+import Empresas from '../components/Empresas.astro';
+import Capacidades from '../components/Capacidades.astro';
+import Sectores from '../components/Sectores.astro';
+import Respaldo from '../components/Respaldo.astro';
+import Contacto from '../components/Contacto.astro';
+import { contenido } from '../data/contenido.js';
+
+const { idioma } = Astro.props;
+const { meta } = contenido(idioma);
+---
+
+<Layout
+  idioma={idioma}
+  paginaId="inicio"
+  titulo={meta.inicio.titulo}
+  descripcion={meta.inicio.descripcion}
+  ogTitulo={meta.inicio.ogTitulo}
+  ogDescripcion={meta.inicio.ogDescripcion}
+>
+  <Hero idioma={idioma} />
+  <Grupo idioma={idioma} />
+  <Empresas idioma={idioma} />
+  <Capacidades idioma={idioma} />
+  <Sectores idioma={idioma} />
+  <Respaldo idioma={idioma} />
+  <Contacto idioma={idioma} />
+</Layout>

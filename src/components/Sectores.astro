@@ -1,5 +1,8 @@
 ---
-import { sectores, sectoresSeccion } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+
+const { idioma } = Astro.props;
+const { sectores, sectoresSeccion } = contenido(idioma);
 ---
 
 <section

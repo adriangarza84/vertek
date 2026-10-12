@@ -1,24 +1,49 @@
 ---
+// El 404 es único para todo el sitio: el host sirve este mismo archivo
+// para cualquier ruta que no exista, también bajo /en/. Por eso va en
+// los dos idiomas, con el español primero.
 import Layout from '../layouts/Layout.astro';
-import { ruta } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+import { traducir } from '../i18n/ui.js';
+import { ancla, rutaDe } from '../i18n/config.js';
+
+const { meta } = contenido('es');
+const es = traducir('es');
+const en = traducir('en');
 ---
 
 <Layout
-  titulo="Página no encontrada | Vertek"
-  descripcion="La página que buscas no existe o cambió de dirección."
+  idioma="es"
+  paginaId={null}
+  titulo={meta.e404.titulo}
+  descripcion={meta.e404.descripcion}
   noindex={true}
 >
   <section class="section e404">
     <div class="wrap">
-      <p class="eyebrow">Error 404</p>
-      <h1 class="title">La página que buscas no existe o cambió de dirección.</h1>
-      <p class="lede">
-        Vuelve al inicio para conocer las empresas del grupo, o escríbenos y te
-        canalizamos con el equipo indicado.
-      </p>
+      <p class="eyebrow">{es.e404Eyebrow}</p>
+      <h1 class="title">{es.e404Titulo}</h1>
+      <p class="lede">{es.e404Texto}</p>
       <div class="btn-row">
-        <a class="btn btn--primary" href={ruta('/')}>Ir al inicio</a>
-        <a class="btn btn--ghost" href={`${ruta('/')}#contacto`}>Contactar al grupo</a>
+        <a class="btn btn--primary" href={rutaDe('inicio', 'es')}>
+          {es.ctaIrAlInicio}
+        </a>
+        <a class="btn btn--ghost" href={ancla('#contacto', 'es')}>
+          {es.ctaContactarGrupo}
+        </a>
+      </div>
+
+      <div class="e404__en" lang="en">
+        <h2 class="e404__en-titulo">{en.e404Titulo}</h2>
+        <p class="e404__en-texto">{en.e404Texto}</p>
+        <div class="btn-row">
+          <a class="btn btn--ghost btn--sm" href={rutaDe('inicio', 'en')}>
+            {en.ctaIrAlInicio}
+          </a>
+          <a class="btn btn--ghost btn--sm" href={ancla('#contacto', 'en')}>
+            {en.ctaContactarGrupo}
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -27,5 +52,29 @@ import { ruta } from '../data/site.js';
 <style>
   .e404 {
     padding-block: clamp(4rem, 12vw, 9rem);
+  }
+
+  /* El bloque en inglés es secundario: misma información, menos peso. */
+  .e404__en {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    padding-top: clamp(2rem, 5vw, 3rem);
+    border-top: 1px solid var(--concrete-200);
+    max-width: 60ch;
+  }
+
+  .e404__en-titulo {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--ink-900);
+  }
+
+  .e404__en-texto {
+    margin-top: 0.75rem;
+    color: var(--steel-500);
+  }
+
+  .e404__en .btn-row {
+    margin-top: 1.5rem;
   }
 </style>

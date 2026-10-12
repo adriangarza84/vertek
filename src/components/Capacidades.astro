@@ -1,5 +1,8 @@
 ---
-import { capacidades } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+
+const { idioma } = Astro.props;
+const { capacidades } = contenido(idioma);
 ---
 
 <section class="section" id="capacidades" aria-labelledby="capacidades-titulo">

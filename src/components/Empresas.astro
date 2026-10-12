@@ -1,5 +1,10 @@
 ---
-import { empresas, empresasSeccion } from '../data/site.js';
+import { contenido } from '../data/contenido.js';
+import { traducir } from '../i18n/ui.js';
+
+const { idioma } = Astro.props;
+const { empresas, empresasSeccion } = contenido(idioma);
+const t = traducir(idioma);
 ---
 
 <section
@@ -62,13 +67,10 @@ import { empresas, empresasSeccion } from '../data/site.js';
       <li>
         <a class="empresa empresa--cta" href="#contacto">
           <span class="empresa__num">＋</span>
-          <h3 class="empresa__nombre">Un solo interlocutor</h3>
-          <p class="empresa__texto">
-            Si tu proyecto involucra a más de una empresa del grupo, escríbenos
-            y coordinamos todo desde un mismo punto de contacto.
-          </p>
+          <h3 class="empresa__nombre">{t.empresaCtaTitulo}</h3>
+          <p class="empresa__texto">{t.empresaCtaTexto}</p>
           <span class="empresa__cta">
-            Contactar al grupo
+            {t.ctaContactarGrupo}
             <svg
               width="13"
               height="13"
