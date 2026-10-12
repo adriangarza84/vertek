@@ -28,22 +28,25 @@ para publicar en Vercel, Netlify, Cloudflare Pages o cualquier hosting estático
 ## Publicación
 
 **Producción:** https://vertek.mx — servida por **Vercel** (proyecto
-`futurite1/vertek`, preset Astro).
+`futurite1/vertek`, preset Astro, conectado a este repo desde agosto de 2026).
 
-⚠️ **El proyecto NO está conectado a Git.** Un push a `main` no despliega
-nada en producción: solo actualiza GitHub y la vista previa de Pages. El
-despliegue se hace a mano desde esta carpeta:
+**Cada push a `main` despliega a producción.** No hay que hacer nada más. No
+hay `vercel.json`: la configuración vive en el panel de Vercel.
+
+Si un push no aparece en producción, antes de dar por hecho que la conexión
+está rota, **mira la lista de despliegues**: un build puede fallar y dejar
+producción servida por el anterior. El error `Git information retrieval
+failed` es de Vercel, no del código, y se resuelve con *Redeploy*.
+
+Despliegue manual, solo como salida de emergencia cuando el build desde Git
+falla y hay prisa:
 
 ```bash
 vercel deploy --prod
 ```
 
-La primera vez hay que vincular la carpeta con `vercel link --yes --project
-vertek` (crea `.vercel/` y `.env.local`, ambos ignorados). No hay
-`vercel.json`: la configuración vive en el panel de Vercel.
-
-Si se quiere que el push sí despliegue, hay que conectar el repo al proyecto
-en Vercel (Settings → Git) y entonces este paso manual sobra.
+La primera vez pide vincular la carpeta con `vercel link --yes --project
+vertek` (crea `.vercel/` y `.env.local`, ambos ignorados).
 
 **Vista previa:** https://adriangarza84.github.io/vertek/ — cada push a `main`
 dispara además `.github/workflows/deploy.yml`, que compila con
