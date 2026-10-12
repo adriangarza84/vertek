@@ -146,9 +146,9 @@ siete tienen sitio; si alguna se queda sin web, basta con quitar su entrada de
 
 ## Pendientes antes de publicar
 
-1. **Endpoint del formulario** — `site.formEndpoint` apunta a un placeholder de
-   Formspree. Sustituir por el endpoint real (Formspree, Basin, Netlify Forms o
-   un handler propio).
+1. **Variables del formulario en Vercel** — ver "Formulario de contacto" más
+   abajo. Sin `brevo_key` y `correos_industrial` el formulario responde con un
+   error honesto en lugar de enviar.
 2. **Dominio definitivo de Apex y Orme** — hoy apuntan a
    `apex-blond-seven.vercel.app` y `orme-psi.vercel.app`. Actualizar en
    `enlacesEmpresas` (`src/data/site.js`) cuando tengan dominio propio; con eso
@@ -160,6 +160,32 @@ La razón social y el domicilio del aviso de privacidad ya están resueltos:
 el responsable es **MACERO METALES, S.A. DE C.V.**, la sociedad que opera la
 marca. Los datos viven en `site.razonSocial` y `site.domicilioFiscal`
 (`src/data/site.js`) y alimentan las dos versiones del aviso.
+
+## Formulario de contacto
+
+El formulario entrega por la **API transaccional de Brevo**, con la misma
+mecánica que el sitio de Fyron: una función serverless en `api/contacto.js`
+—fuera de `src/`, así que nada de eso llega al navegador— que valida el envío
+y llama a Brevo. La clave nunca sale del servidor.
+
+Sin JavaScript el formulario hace POST nativo y la función responde con una
+página de acuse. Con JavaScript se envía por `fetch` y el resultado se anuncia
+sin sacar al visitante de la página. En la vista previa de GitHub Pages no hay
+servidor: ahí el formulario se queda sin `action` y cae a un `mailto`, en vez
+de fingir un envío que nadie recibiría.
+
+Variables en Vercel → Settings → Environment Variables (ver `.env.example`):
+
+| Variable | Qué es |
+| --- | --- |
+| `brevo_key` | Clave API v3 de Brevo. **Requerida.** |
+| `correos_industrial` | Destinatarios del aviso, separados por comas. |
+| `BREVO_SENDER_EMAIL` | Remitente. **Debe estar verificado en Brevo** o el envío se rechaza. |
+| `BREVO_SENDER_NAME` | Nombre visible del remitente. |
+| `BREVO_LIST_ID` | Opcional: guarda al prospecto en esa lista de Brevo. |
+
+El aviso lleva `replyTo` con el correo del prospecto: contestar el correo le
+responde directo a él.
 
 ## Nota sobre `og.png`
 

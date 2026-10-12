@@ -23,8 +23,12 @@ export const site = {
   domicilioFiscal:
     'Torre Tanarah Piso 21, Av. José Vasconcelos 345-Ote, Colonia Santa Engracia, C.P. 66267, San Pedro Garza García, N.L.',
 
-  // Endpoint del formulario de contacto (Formspree, Basin, Netlify Forms…)
-  formEndpoint: 'https://formspree.io/f/xxxxxxxx', // [confirmar]
+  // Endpoint del formulario: la función serverless `api/contacto.js`, que
+  // entrega el mensaje por la API transaccional de Brevo. Solo existe donde
+  // hay servidor (Vercel), y ahí la base es '/'. La vista previa de GitHub
+  // Pages es estática: se queda sin endpoint y el formulario cae al respaldo
+  // por correo, en lugar de fingir que envió.
+  formEndpoint: import.meta.env.BASE_URL === '/' ? '/api/contacto' : '',
 };
 
 // ---------------------------------------------------------------

@@ -35,10 +35,22 @@ const rPrivacidad = rutaDe('privacidad', idioma);
 
     <form
       class="form reveal"
-      action={site.formEndpoint}
+      data-form
       method="POST"
+      action={site.formEndpoint || undefined}
       aria-labelledby="contacto-titulo"
+      data-destino={site.correo}
+      data-enviando={t.formEnviando}
+      data-exito={t.formExito}
+      data-error-validacion={t.formErrorValidacion}
+      data-error-servidor={t.formErrorServidor}
+      data-error-red={t.formErrorRed}
+      data-enviar={t.formEnviar}
     >
+      {/* El idioma viaja con el envío: decide la copia del aviso y de la
+          página de respuesta cuando el visitante no tiene JavaScript. */}
+      <input type="hidden" name="lang" value={idioma} />
+
       <div class="form__campo">
         <label for="nombre">{t.formNombre}</label>
         <input id="nombre" name="nombre" type="text" required autocomplete="name" />
@@ -95,6 +107,10 @@ const rPrivacidad = rutaDe('privacidad', idioma);
       <button class="btn btn--primary form__enviar" type="submit">
         {t.formEnviar}
       </button>
+
+      {/* El resultado del envío se anuncia aquí; aria-live lo lee en voz
+          alta sin mover el foco. */}
+      <p class="form__estado" data-estado role="status" aria-live="polite"></p>
 
       <p class="form__nota">
         {t.formNotaAntes}<a href={rPrivacidad}>{t.formNotaEnlace}</a>{t.formNotaDespues}
@@ -217,4 +233,131 @@ const rPrivacidad = rutaDe('privacidad', idioma);
       align-items: start;
     }
   }
+
+  /* ---------- Estado del envío ---------- */
+
+  .form__estado:empty {
+    display: none;
+  }
+
+  .form__estado {
+    margin-top: 1rem;
+    padding: 0.85rem 1rem;
+    border-left: 3px solid var(--steel-500);
+    background: var(--concrete-50);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink-700);
+  }
+
+  .form__estado[data-tono='exito'] {
+    border-left-color: var(--ink-900);
+    color: var(--ink-900);
+  }
+
+  .form__estado[data-tono='error'] {
+    border-left-color: #a3282b;
+    color: #8c2326;
+  }
+
+  .form :global([aria-invalid='true']) {
+    border-color: #a3282b;
+  }
 </style>
+
+<script>
+  // Envío del formulario de contacto.
+  //
+  // Sin JavaScript el formulario hace POST nativo y la función serverless
+  // responde con una página. Con JavaScript lo enviamos por fetch para no
+  // sacar al visitante de la página.
+  //
+  // Donde no hay servidor (la vista previa estática de GitHub Pages) el
+  // formulario se queda sin `action`: ahí caemos a un mailto en lugar de
+  // fingir un envío que nadie recibiría.
+  const form = document.querySelector('[data-form]');
+
+  if (form) {
+    const boton = form.querySelector('[type="submit"]');
+    const salida = form.querySelector('[data-estado]');
+    const endpoint = form.getAttribute('action');
+
+    const txt = {
+      destino: form.dataset.destino,
+      enviando: form.dataset.enviando,
+      exito: form.dataset.exito,
+      errorValidacion: form.dataset.errorValidacion,
+      errorServidor: form.dataset.errorServidor,
+      errorRed: form.dataset.errorRed,
+      enviar: form.dataset.enviar,
+    };
+
+    const mostrar = (mensaje, tono) => {
+      if (!salida) return;
+      salida.textContent = mensaje;
+      salida.dataset.tono = tono;
+    };
+
+    const marcar = (campos) => {
+      form
+        .querySelectorAll('[aria-invalid]')
+        .forEach((el) => el.removeAttribute('aria-invalid'));
+      (campos || []).forEach((campo) => {
+        const el = form.querySelector(`[name="${campo}"]`);
+        if (el) el.setAttribute('aria-invalid', 'true');
+      });
+    };
+
+    if (!endpoint) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const datos = new FormData(form);
+        const lineas = [];
+        for (const [clave, valor] of datos.entries()) {
+          if (clave.startsWith('_') || clave === 'lang') continue;
+          if (String(valor).trim()) lineas.push(`${clave}: ${valor}`);
+        }
+        const asunto = `Contacto desde el sitio — ${datos.get('nombre') || ''}`;
+        window.location.href = `mailto:${txt.destino}?subject=${encodeURIComponent(
+          asunto
+        )}&body=${encodeURIComponent(lineas.join('\n'))}`;
+      });
+    } else {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (boton.disabled) return;
+
+        const datos = Object.fromEntries(new FormData(form).entries());
+
+        marcar([]);
+        boton.disabled = true;
+        boton.textContent = txt.enviando;
+        mostrar(txt.enviando, 'espera');
+
+        try {
+          const respuesta = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify(datos),
+          });
+          const cuerpo = await respuesta.json().catch(() => ({}));
+
+          if (respuesta.ok && cuerpo.ok) {
+            form.reset();
+            mostrar(txt.exito, 'exito');
+          } else if (cuerpo.error === 'validacion') {
+            marcar(cuerpo.campos);
+            mostrar(txt.errorValidacion, 'error');
+          } else {
+            mostrar(txt.errorServidor, 'error');
+          }
+        } catch {
+          mostrar(txt.errorRed, 'error');
+        } finally {
+          boton.disabled = false;
+          boton.textContent = txt.enviar;
+        }
+      });
+    }
+  }
+</script>

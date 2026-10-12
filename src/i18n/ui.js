@@ -49,6 +49,15 @@ const es = {
   formNotaEnlace: 'aviso de privacidad',
   formNotaDespues: '.',
 
+  // --- Estados del envío del formulario ---
+  formEnviando: 'Enviando…',
+  formExito: 'Mensaje enviado. Te contestamos en menos de 24 horas hábiles.',
+  formErrorValidacion: 'Revisa los campos marcados y vuelve a intentarlo.',
+  formErrorServidor:
+    'No pudimos enviar el mensaje. Escríbenos a contacto@vertek.mx y lo resolvemos igual de rápido.',
+  formErrorRed:
+    'No hay conexión. Revisa tu red y vuelve a intentarlo, o escríbenos a contacto@vertek.mx.',
+
   // --- Pie ---
   footerGrupo: 'Grupo',
   footerEmpresas: 'Empresas',
@@ -106,6 +115,15 @@ const en = {
   formNotaAntes: 'By submitting this form you agree to the processing of your data under our ',
   formNotaEnlace: 'privacy notice',
   formNotaDespues: '.',
+
+  // --- Estados del envío del formulario ---
+  formEnviando: 'Sending…',
+  formExito: 'Message sent. We will reply within 24 business hours.',
+  formErrorValidacion: 'Check the highlighted fields and try again.',
+  formErrorServidor:
+    'We could not send your message. Write to us at contacto@vertek.mx and we will take it from there.',
+  formErrorRed:
+    'No connection. Check your network and try again, or write to us at contacto@vertek.mx.',
 
   // --- Pie ---
   footerGrupo: 'Group',
