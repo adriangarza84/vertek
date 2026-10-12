@@ -27,9 +27,23 @@ para publicar en Vercel, Netlify, Cloudflare Pages o cualquier hosting estático
 
 ## Publicación
 
-**Producción:** https://vertek.mx — servida por **Vercel**, conectada al repo.
-Cada push a `main` dispara el build (`npm run build`, sin variables) y el
-despliegue. No hay `vercel.json`: la configuración vive en el panel de Vercel.
+**Producción:** https://vertek.mx — servida por **Vercel** (proyecto
+`futurite1/vertek`, preset Astro).
+
+⚠️ **El proyecto NO está conectado a Git.** Un push a `main` no despliega
+nada en producción: solo actualiza GitHub y la vista previa de Pages. El
+despliegue se hace a mano desde esta carpeta:
+
+```bash
+vercel deploy --prod
+```
+
+La primera vez hay que vincular la carpeta con `vercel link --yes --project
+vertek` (crea `.vercel/` y `.env.local`, ambos ignorados). No hay
+`vercel.json`: la configuración vive en el panel de Vercel.
+
+Si se quiere que el push sí despliegue, hay que conectar el repo al proyecto
+en Vercel (Settings → Git) y entonces este paso manual sobra.
 
 **Vista previa:** https://adriangarza84.github.io/vertek/ — cada push a `main`
 dispara además `.github/workflows/deploy.yml`, que compila con
