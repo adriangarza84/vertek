@@ -146,14 +146,11 @@ siete tienen sitio; si alguna se queda sin web, basta con quitar su entrada de
 
 ## Pendientes antes de publicar
 
-1. **Variables del formulario en Vercel** — ver "Formulario de contacto" más
-   abajo. Sin `brevo_key` y `correos_industrial` el formulario responde con un
-   error honesto en lugar de enviar.
-2. **Dominio definitivo de Apex y Orme** — hoy apuntan a
+1. **Dominio definitivo de Apex y Orme** — hoy apuntan a
    `apex-blond-seven.vercel.app` y `orme-psi.vercel.app`. Actualizar en
    `enlacesEmpresas` (`src/data/site.js`) cuando tengan dominio propio; con eso
    cambian los dos idiomas a la vez. Fyron ya está en `fyron.mx`.
-3. **Analítica** — no se instaló ninguna. Si se quiere, se agrega en
+2. **Analítica** — no se instaló ninguna. Si se quiere, se agrega en
    `src/layouts/Layout.astro`.
 
 La razón social y el domicilio del aviso de privacidad ya están resueltos:
@@ -173,6 +170,10 @@ página de acuse. Con JavaScript se envía por `fetch` y el resultado se anuncia
 sin sacar al visitante de la página. En la vista previa de GitHub Pages no hay
 servidor: ahí el formulario se queda sin `action` y cae a un `mailto`, en vez
 de fingir un envío que nadie recibiría.
+
+**Estado: configurado y probado en producción** (12 de octubre de 2026). Los
+avisos salen de `no-reply@vertek.mx` —dominio autenticado en Brevo— y llegan a
+los mismos buzones que el formulario de Fyron.
 
 Variables en Vercel → Settings → Environment Variables (ver `.env.example`):
 
