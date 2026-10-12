@@ -150,10 +150,13 @@ siete tienen sitio; si alguna se queda sin web, basta con quitar su entrada de
    `apex-blond-seven.vercel.app` y `orme-psi.vercel.app`. Actualizar en
    `enlacesEmpresas` (`src/data/site.js`) cuando tengan dominio propio; con eso
    cambian los dos idiomas a la vez. Fyron ya está en `fyron.mx`.
-3. **Razón social y domicilio fiscal** — el aviso de privacidad los deja
-   señalados como pendientes de confirmar.
-4. **Analítica** — no se instaló ninguna. Si se quiere, se agrega en
+3. **Analítica** — no se instaló ninguna. Si se quiere, se agrega en
    `src/layouts/Layout.astro`.
+
+La razón social y el domicilio del aviso de privacidad ya están resueltos:
+el responsable es **MACERO METALES, S.A. DE C.V.**, la sociedad que opera la
+marca. Los datos viven en `site.razonSocial` y `site.domicilioFiscal`
+(`src/data/site.js`) y alimentan las dos versiones del aviso.
 
 ## Nota sobre `og.png`
 

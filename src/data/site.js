@@ -17,6 +17,12 @@ export const site = {
   region: 'Nuevo León',
   correo: 'contacto@vertek.mx',
 
+  // Persona moral que opera el sitio. Va en el aviso de privacidad, en
+  // los dos idiomas: la razón social y el domicilio no se traducen.
+  razonSocial: 'MACERO METALES, S.A. DE C.V.',
+  domicilioFiscal:
+    'Torre Tanarah Piso 21, Av. José Vasconcelos 345-Ote, Colonia Santa Engracia, C.P. 66267, San Pedro Garza García, N.L.',
+
   // Endpoint del formulario de contacto (Formspree, Basin, Netlify Forms…)
   formEndpoint: 'https://formspree.io/f/xxxxxxxx', // [confirmar]
 };

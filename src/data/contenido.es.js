@@ -24,7 +24,7 @@ export const es = {
       descripcion:
         'Aviso de privacidad de Vertek: tratamiento de datos personales recabados a través del sitio.',
       encabezado: 'Aviso de privacidad',
-      actualizado: 'Agosto 2026',
+      actualizado: 'Octubre 2026',
     },
     e404: {
       titulo: 'Página no encontrada | Vertek',

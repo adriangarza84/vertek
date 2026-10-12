@@ -28,7 +28,7 @@ export const en = {
       descripcion:
         'Vertek privacy notice: processing of personal data collected through this site.',
       encabezado: 'Privacy notice',
-      actualizado: 'August 2026',
+      actualizado: 'October 2026',
     },
     e404: {
       titulo: 'Page not found | Vertek',
